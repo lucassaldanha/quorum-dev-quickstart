@@ -18,13 +18,16 @@ To run these tutorials, you must have the following installed:
 | ⚠️ **Note**: If on MacOS or Windows, please ensure that you allow docker to use upto 4G of memory or 6G if running Privacy examples under the _Resources_ section. The [Docker for Mac](https://docs.docker.com/docker-for-mac/) and [Docker Desktop](https://docs.docker.com/docker-for-windows/) sites have details on how to do this at the "Resources" heading       |
 | ---                                                                                                                                                                                                                                                                                                                                                                                |
 
+| ⚠️ **Note**: This has been tested on Windows 10 Build 18362 and Docker >= 17.122 and also on Ubuntu >= 20.04.2 LTS |
+| --- |
 
-| ⚠️ **Note**: This has only been tested on Windows 10 Build 18362 and Docker >= 17.12.2                                                                                                                                                                                                                                                                                              |
-| ---                                                                                                                                                                                                                                                                                                                                                                                |
+| ⚠️ **Note**: This has been tested on Ubuntu >= 20.04.2 LTS|
+| - |
 
 - On Windows ensure that the drive that this repo is cloned onto is a "Shared Drive" with Docker Desktop
 - On Windows we recommend running all commands from GitBash
 - [Nodejs](https://nodejs.org/en/download/) or [Yarn](https://yarnpkg.com/cli/node)
+- On Ubuntu, make sure you are able to [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) to avoid having to use sudo where required.
 
 
 
@@ -57,7 +60,7 @@ The overall architecture diagrams to visually show components of the blockchain 
 **Consensus Algorithm**: The Besu based Quorum variant uses the `IBFT2` consensus mechanism.
 **Private TX Manager**: The Besu based Quorum variant uses [Orion](https://github.com/PegaSysEng/orion)
 
-![Image blockchain](./static/blockchain-network.png)
+![Image blockchain](/files/common/static/blockchain-network.png)
  
 
 ### i. POA Network <a name="poa-network"></a>
@@ -132,7 +135,7 @@ This can be verified from the `data` field of the `logs` which is `1`.
 - Once you have a network up and running from above, install [metamask](https://metamask.io/) as an extension in your browser
 - Once you have setup your own private account, select 'My Accounts' by clicking on the avatar pic and then 'Import Account' and enter the valid private_key
 - You can now deploy contracts and connect DApps to the network. 
-![Image dapp](./static/qs-dapp.png)
+![Image dapp](/files/common/static/qs-dapp.png)
 
 As seen in the architecture overview diagram you can extend the network with monitoring, logging, smart contracts, DApps and so on
 
