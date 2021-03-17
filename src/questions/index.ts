@@ -86,35 +86,35 @@ const _orchestrateQuestion: QuestionTree = {
 };
 
 const _dnsQuestion: QuestionTree = {
-    name: "enable_dns",
+    name: "enableDNS",
     prompt: "Do you wish to use dns instead of ip address for the nodes ? [Y/n], Default: [n]",
 };
 // have to add this below the definition because of the self reference..
 _dnsQuestion.transformerValidator = _getYesNoValidator(_dnsQuestion, _orchestrateQuestion, "n");
 
 const _nodePermissionsQuestion: QuestionTree = {
-    name: "enable_node_permissions",
+    name: "enableNodePermissions",
     prompt: "Do you wish to use file based node level permissions ? [Y/n], Default: [Y]",
 };
 // have to add this below the definition because of the self reference..
 _nodePermissionsQuestion.transformerValidator = _getYesNoValidator(_nodePermissionsQuestion, _dnsQuestion, "y");
 
 const _p2pDiscoveryQuestion: QuestionTree = {
-    name: "enable_p2p_discovery",
+    name: "enableP2PDiscovery",
     prompt: "Do you wish to use p2p discovery ? [Y/n], Default: [Y]",
 };
 // have to add this below the definition because of the self reference..
 _p2pDiscoveryQuestion.transformerValidator = _getYesNoValidator(_p2pDiscoveryQuestion, _nodePermissionsQuestion, "y");
 
 const _bootNodeQuestion: QuestionTree = {
-    name: "enable_boot_nodes",
+    name: "enableBootNodes",
     prompt: "Do you wish to use boot nodes ? [Y/n], Default: [Y]",
 };
 // have to add this below the definition because of the self reference..
 _bootNodeQuestion.transformerValidator = _getYesNoValidator(_bootNodeQuestion, _orchestrateQuestion, "y", _p2pDiscoveryQuestion);
 
 const _staticNodeQuestion: QuestionTree = {
-    name: "enable_static_nodes",
+    name: "enableStaticNodes",
     prompt: "Do you wish to use static nodes ? [Y/n], Default: [n]",
 };
 // have to add this below the definition because of the self reference..
@@ -153,7 +153,7 @@ export const rootQuestion: QuestionTree = {
     prompt: `${bannerText}${leadInText}Which Ethereum client would you like to run? Default: [1]`,
     options: [
         // TODO: fix these to the correct names
-        { label: "Hyperledger Besu", value: "besu", nextQuestion: _orchestrateQuestion, default: true },
+        { label: "Hyperledger Besu", value: "besu", nextQuestion: _staticNodeQuestion, default: true },
         { label: "GoQuorum", value: "gquorum", nextQuestion: _orchestrateQuestion }
     ]
 };
@@ -171,6 +171,6 @@ function _getYesNoValidator(question: QuestionTree, yesQuestion?: QuestionTree, 
                 "or just hit enter if you want the default.\n"));
             return question;
         }
-        return answers[question.name] ? yesQuestion : undefined == noQuestion ? yesQuestion : noQuestion;
+        return answers[question.name] ? yesQuestion : undefined === noQuestion ? yesQuestion : noQuestion;
     };
 }

@@ -5,12 +5,12 @@ import chalk from "chalk";
 import { AnswerMap } from "./questions/types";
 
 const defaults : AnswerMap = {
-    enable_static_nodes: false,
-    enable_boot_nodes: true,
-    enable_p2p_discovery: true,
-    enable_node_permissions: true,
-    enable_dns: false,
-    ipaddress_mapping: {
+    enableStaticNodes: false,
+    enableBootNodes: true,
+    enableP2PDiscovery: true,
+    enableNodePermissions: true,
+    enableDNS: false,
+    ipaddressMapping: {
         validator1: '172.16.239.11',
         validator2: '172.16.239.12',
         validator3: '172.16.239.13',
@@ -20,7 +20,7 @@ const defaults : AnswerMap = {
         member2besu: '172.16.239.17',
         member3besu: '172.16.239.18',
     },
-    dns_mapping: {
+    dnsMapping: {
         validator1: 'validator1',
         validator2: 'validator2',
         validator3: 'validator3',

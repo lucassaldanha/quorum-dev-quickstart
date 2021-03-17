@@ -163,12 +163,12 @@ services:
       - ./logs/besu:/var/log/
       - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/validator1/keys:/opt/besu/keys
-{% if enable_static_nodes %}
+{% if enableStaticNodes %}
       - ./config/besu/static-nodes.json:/config/static-nodes.json
 {% endif %}
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.11
 {% endif %}
 
@@ -187,7 +187,7 @@ services:
       - validator1
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.12
 {% endif %}
 
@@ -206,7 +206,7 @@ services:
       - validator1
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.13
 {% endif %}
 
@@ -225,7 +225,7 @@ services:
       - validator1
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.14
 {% endif %}
 
@@ -247,7 +247,7 @@ services:
       - 8546:8546/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.15
 {% endif %}
 
@@ -263,7 +263,7 @@ services:
       - 18545:8545/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.40
 {% endif %}
 
@@ -283,7 +283,7 @@ services:
       - ./config/orion/log-config.xml:/config/log-config.xml
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.26
 {% endif %}
 
@@ -324,7 +324,7 @@ services:
       - 20001:8546/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.16
 {% endif %}
 
@@ -342,7 +342,7 @@ services:
       - ./config/orion/log-config.xml:/config/log-config.xml
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.27
 {% endif %}
 
@@ -383,7 +383,7 @@ services:
       - 20003:8546/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.17
 {% endif %}
 
@@ -401,7 +401,7 @@ services:
       - ./config/orion/log-config.xml:/config/log-config.xml
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.28
 {% endif %}
 
@@ -442,7 +442,7 @@ services:
       - 20005:8546/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.18
 {% endif %}
 {% endif %}
@@ -457,7 +457,7 @@ services:
       - 25000:80/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.31
 {% endif %}
 
@@ -472,7 +472,7 @@ services:
       - 9090:9090/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.32
 {% endif %}
 
@@ -487,7 +487,7 @@ services:
       - 3000:3000/tcp
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.33
 {% endif %}
 {% endif %}
@@ -497,7 +497,7 @@ services:
     << : *redis-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.34
 {% endif %}
 
@@ -505,7 +505,7 @@ services:
     << : *elasticsearch-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.35
 {% endif %}
 
@@ -513,7 +513,7 @@ services:
     << : *kibana-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.36
 {% endif %}
 
@@ -521,7 +521,7 @@ services:
     << : *logstash-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.37
 {% endif %}
 
@@ -529,7 +529,7 @@ services:
     << : *filebeat-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.38      
 {% endif %}
 
@@ -537,7 +537,7 @@ services:
     << : *metricbeat-def
     networks:
       quorum-dev-quickstart:
-{% if not enable_dns %}
+{% if not enableDNS %}
         ipv4_address: 172.16.239.39 
 {% endif %}
 
