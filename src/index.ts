@@ -12,6 +12,8 @@ const defaults: AnswerMap = {
     enableDNS: false,
     besuConsAlgo: 'ibft2',
     besuConsApi: 'IBFT',
+    enableMiner: false,
+    minerCoinbase: 'fe3b557e8fb62b89f4916b721be55ceb828dbd73',
     minGasPrice: 0,
     privacyOnchainGroupsEnabled: false,
     metrics: true,

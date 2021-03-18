@@ -58,3 +58,7 @@ Xdns-update-enabled=true
 {% endif %}
 
 min-gas-price={{- minGasPrice}}
+{% if enableMiner %}
+miner-enabled=true
+miner-coinbase="0x{{- minerCoinbase}}"
+{% endif %}
