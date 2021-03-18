@@ -17,7 +17,6 @@ x-besu-bootnode-def:
       --p2p-host=$$(hostname -i) \
       --genesis-file=/config/genesis.json \
       --node-private-key-file=/opt/besu/keys/key \
-      --min-gas-price=0 \
       --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
       --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
 
@@ -37,7 +36,6 @@ x-besu-def:
       --p2p-host=$$(hostname -i) \
       --genesis-file=/config/genesis.json \
       --node-private-key-file=/opt/besu/keys/key \
-      --min-gas-price=0 \
       --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
       --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
 
@@ -299,7 +297,6 @@ services:
         --p2p-host=$$(hostname -i) \
         --genesis-file=/config/genesis.json \
         --node-private-key-file=/opt/besu/keys/key \
-        --min-gas-price=0 \
         --privacy-enabled \
         --privacy-url=http://member1orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
@@ -358,7 +355,6 @@ services:
         --p2p-host=$$(hostname -i) \
         --genesis-file=/config/genesis.json \
         --node-private-key-file=/opt/besu/keys/key \
-        --min-gas-price=0 \
         --privacy-enabled \
         --privacy-url=http://member2orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
@@ -417,7 +413,6 @@ services:
         --p2p-host=$$(hostname -i) \
         --genesis-file=/config/genesis.json \
         --node-private-key-file=/opt/besu/keys/key \
-        --min-gas-price=0 \
         --privacy-enabled \
         --privacy-url=http://member3orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \

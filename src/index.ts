@@ -12,6 +12,7 @@ const defaults : AnswerMap = {
     enableDNS: false,
     besuConsAlgo: 'ibft2',
     besuConsApi: 'IBFT',
+    minGasPrice: 0,
    ipaddressMapping: {
         validator1: '172.16.239.11',
         validator2: '172.16.239.12',

@@ -56,3 +56,5 @@ discovery-enabled=false
 Xdns-enabled=true
 Xdns-update-enabled=true
 {% endif %}
+
+min-gas-price={{- minGasPrice}}
