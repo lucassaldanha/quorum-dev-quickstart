@@ -14,6 +14,7 @@ const defaults: AnswerMap = {
     besuConsApi: 'IBFT',
     minGasPrice: 0,
     privacyOnchainGroupsEnabled: false,
+    metrics: true,
     ipaddressMapping: {
         validator1: '172.16.239.11',
         validator2: '172.16.239.12',

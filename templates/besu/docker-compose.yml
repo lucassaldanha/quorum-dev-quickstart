@@ -456,6 +456,7 @@ services:
         ipv4_address: 172.16.239.31
 {% endif %}
 
+{% if metrics %}
   prometheus:
     image: "prom/prometheus"
     volumes:
@@ -484,6 +485,7 @@ services:
       quorum-dev-quickstart:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.33
+{% endif %}
 {% endif %}
 {% endif %}
 
