@@ -10,7 +10,9 @@ const defaults : AnswerMap = {
     enableP2PDiscovery: true,
     enableNodePermissions: true,
     enableDNS: false,
-    ipaddressMapping: {
+    besuConsAlgo: 'ibft2',
+    besuConsApi: 'IBFT',
+   ipaddressMapping: {
         validator1: '172.16.239.11',
         validator2: '172.16.239.12',
         validator3: '172.16.239.13',

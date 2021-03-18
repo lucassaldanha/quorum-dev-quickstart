@@ -18,8 +18,8 @@ x-besu-bootnode-def:
       --genesis-file=/config/genesis.json \
       --node-private-key-file=/opt/besu/keys/key \
       --min-gas-price=0 \
-      --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,${BESU_CONS_API:-IBFT} \
-      --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,${BESU_CONS_API:-IBFT} ;
+      --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
+      --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
 
 x-besu-def:
   &besu-def
@@ -38,8 +38,8 @@ x-besu-def:
       --genesis-file=/config/genesis.json \
       --node-private-key-file=/opt/besu/keys/key \
       --min-gas-price=0 \
-      --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,${BESU_CONS_API:-IBFT} \
-      --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,${BESU_CONS_API:-IBFT} ;
+      --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
+      --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
 
 {% if privacy %}
 x-orion-def:
@@ -161,7 +161,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/validator1/keys:/opt/besu/keys
 {% if enableStaticNodes %}
       - ./config/besu/static-nodes.json:/config/static-nodes.json
@@ -181,7 +181,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/validator2/keys:/opt/besu/keys
     depends_on:
       - validator1
@@ -200,7 +200,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/validator3/keys:/opt/besu/keys
     depends_on:
       - validator1
@@ -219,7 +219,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/validator4/keys:/opt/besu/keys
     depends_on:
       - validator1
@@ -238,7 +238,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/rpcnode/keys:/opt/besu/keys
     depends_on:
       - validator1
@@ -304,8 +304,8 @@ services:
         --privacy-url=http://member1orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
-        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} \
-        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} ;
+        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
+        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:
       - public-keys:/opt/besu/public-keys/
       - ./config/besu/config.toml:/config/config.toml
@@ -313,7 +313,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/member1/keys:/opt/besu/keys
       - ./config/orion/networkFiles/orion1/nodeKey.pub:/config/orion/orion.pub
     depends_on:
@@ -363,8 +363,8 @@ services:
         --privacy-url=http://member2orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
-        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} \
-        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} ;
+        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
+        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:
       - public-keys:/opt/besu/public-keys/
       - ./config/besu/config.toml:/config/config.toml
@@ -372,7 +372,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/member2/keys:/opt/besu/keys
       - ./config/orion/networkFiles/orion2/nodeKey.pub:/config/orion/orion.pub
     depends_on:
@@ -422,8 +422,8 @@ services:
         --privacy-url=http://member3orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
-        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} \
-        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,${BESU_CONS_API:-IBFT} ;
+        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
+        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:
       - public-keys:/opt/besu/public-keys/
       - ./config/besu/config.toml:/config/config.toml
@@ -431,7 +431,7 @@ services:
       - ./config/besu/static-nodes.json:/config/static-nodes.json
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
-      - ./config/besu/${BESU_CONS_ALGO:-ibft2}Genesis.json:/config/genesis.json
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/member3/keys:/opt/besu/keys
       - ./config/orion/networkFiles/orion3/nodeKey.pub:/config/orion/orion.pub
     depends_on:
