@@ -300,7 +300,7 @@ services:
         --privacy-enabled \
         --privacy-url=http://member1orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
-        --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
+        --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
         --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:
@@ -358,7 +358,7 @@ services:
         --privacy-enabled \
         --privacy-url=http://member2orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
-        --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
+        --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
         --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:
@@ -416,7 +416,7 @@ services:
         --privacy-enabled \
         --privacy-url=http://member3orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
-        --privacy-onchain-groups-enabled=${PRIVACY_ONCHAIN_GROUPS_ENABLED:-false} \
+        --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
         --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
     volumes:

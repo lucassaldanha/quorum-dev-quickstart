@@ -4,7 +4,7 @@ import { buildNetwork, NetworkContext } from "./networkBuilder";
 import chalk from "chalk";
 import { AnswerMap } from "./questions/types";
 
-const defaults : AnswerMap = {
+const defaults: AnswerMap = {
     enableStaticNodes: false,
     enableBootNodes: true,
     enableP2PDiscovery: true,
@@ -13,7 +13,8 @@ const defaults : AnswerMap = {
     besuConsAlgo: 'ibft2',
     besuConsApi: 'IBFT',
     minGasPrice: 0,
-   ipaddressMapping: {
+    privacyOnchainGroupsEnabled: false,
+    ipaddressMapping: {
         validator1: '172.16.239.11',
         validator2: '172.16.239.12',
         validator3: '172.16.239.13',
@@ -66,7 +67,7 @@ if (require.main === module) {
         if (err && err.stack && process.argv.length >= 3 && process.argv[2] === "--stackTraceOnError") {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.error(`Fatal error: ${err.stack as string}`);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         } else if (err && err.message) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             console.error(`Fatal error: ${err.message as string}`);
