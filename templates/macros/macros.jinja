@@ -1,0 +1,124 @@
+byNotAttr{%- macro services(nodeConfig) %}
+{% set bootnode = nodeConfig | firstByAttr('boot', true) %}
+{% set memberPort = 20000 %}
+{% for node in nodeConfig %}
+{% if node.type == 'validator' %}
+  {{ node.name}}:
+    << : *besu-bootnode-def
+    volumes:
+      - public-keys:/tmp/
+      - ./config/besu/config.toml:/config/config.toml
+      - ./config/besu/permissions_config.toml:/config/permissions_config.toml
+      - ./config/besu/log-config.xml:/config/log-config.xml
+      - ./logs/besu:/var/log/
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
+      - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
+{% if enableStaticNodes %}
+      - ./config/besu/static-nodes.json:/config/static-nodes.json
+{% endif %}
+{% if bootnode and node.name != bootnode.name %}
+    depends_on:
+      - {{ bootnode.name}}
+{% endif %}
+    networks:
+      quorum-dev-quickstart:
+{%- if not enableDNS %}
+        ipv4_address: {{ node.ip}}
+{%- endif %}
+{% elif node.type == 'rpc' %}
+  {{ node.name}}:
+    << : *besu-def
+    volumes:
+      - public-keys:/opt/besu/public-keys/
+      - ./config/besu/config.toml:/config/config.toml
+      - ./config/besu/permissions_config.toml:/config/permissions_config.toml
+      - ./config/besu/log-config.xml:/config/log-config.xml
+      - ./logs/besu:/var/log/
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
+      - ./config/besu/networkFiles/rpcnode/keys:/opt/besu/keys
+{% if enableStaticNodes %}
+      - ./config/besu/static-nodes.json:/config/static-nodes.json
+{% endif %}
+{% if bootnode %}
+    depends_on:
+      - {{ bootnode.name}}
+{% endif %}
+
+    ports:
+      - 8545:8545/tcp
+      - 8546:8546/tcp
+    networks:
+      quorum-dev-quickstart:
+{% if not enableDNS %}
+        ipv4_address: {{ node.ip}}
+{% endif %}
+
+{% elif privacy and node.type == 'member' %}
+{%- set orionnode = nodeConfig | firstByAttr('name', node.orion) %}
+  {{ node.name}}besu:
+    << : *besu-def
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        while [ ! -f "/opt/besu/public-keys/bootnode_pubkey" ]; do sleep 5; done ;
+        /opt/besu/bin/besu \
+        --config-file=/config/config.toml \
+        --p2p-host=$$(hostname -i) \
+        --genesis-file=/config/genesis.json \
+        --node-private-key-file=/opt/besu/keys/key \
+        --privacy-enabled \
+        --privacy-url=http://{{- node.name}}orion:8888 \
+        --privacy-public-key-file=/config/orion/orion.pub \
+        --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
+        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
+        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
+    volumes:
+      - public-keys:/opt/besu/public-keys/
+      - ./config/besu/config.toml:/config/config.toml
+      - ./config/besu/permissions_config.toml:/config/permissions_config.toml
+{% if enableStaticNodes %}
+      - ./config/besu/static-nodes.json:/config/static-nodes.json
+{% endif %}
+      - ./config/besu/log-config.xml:/config/log-config.xml
+      - ./logs/besu:/var/log/
+      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
+      - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
+      - ./config/orion/networkFiles/{{- orionnode.name}}/nodeKey.pub:/config/orion/orion.pub
+    depends_on:
+      - {{ node.name}}orion
+{% if bootnode %}
+      - {{ bootnode.name}}
+{% endif %}
+    ports:
+      - {{memberPort}}:8545/tcp
+      - {{memberPort+1}}:8546/tcp
+    networks:
+      quorum-dev-quickstart:
+{% if not enableDNS %}
+        ipv4_address: {{ node.ip}}
+{% endif %}
+
+{% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
+  {{ node.name}}orion:
+    << : *orion-def
+    environment:
+      - ORION_OTHERNODES={% for otherOrion in nodeConfig | byArr(otherOrions, 'orion', 'name') %}http://{{- otherOrion.name}}orion:8080/{{',' if not loop.last}}{% endfor %}
+      - ORION_NODEURL=http://{{- node.name}}orion:8080
+      - ORION_CLIENTURL=http://{{- node.name}}orion:8888
+      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
+    volumes:
+      - ./config/orion/orion.conf:/config/orion.conf
+      - ./config/orion/networkFiles/{{- orionnode.name}}:/keys/
+      - ./logs/orion:/var/log/
+      - ./config/orion/log-config.xml:/config/log-config.xml
+    networks:
+      quorum-dev-quickstart:
+{% if not enableDNS %}
+        ipv4_address: {{ orionnode.ip}}
+{% endif %}
+{% set memberPort = memberPort + 2 %}
+
+{% endif %}
+{% endfor %}
+{% endmacro %}
