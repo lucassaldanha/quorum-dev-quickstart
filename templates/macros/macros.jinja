@@ -1,4 +1,4 @@
-byNotAttr{%- macro services(nodeConfig) %}
+{%- macro services(nodeConfig) %}
 {% set bootnode = nodeConfig | firstByAttr('boot', true) %}
 {% set memberPort = 20000 %}
 {% for node in nodeConfig %}
