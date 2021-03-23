@@ -85,41 +85,6 @@ const _orchestrateQuestion: QuestionTree = {
     }
 };
 
-const _dnsQuestion: QuestionTree = {
-    name: "enableDNS",
-    prompt: "Do you wish to use dns instead of ip address for the nodes ? [Y/n], Default: [n]",
-};
-// have to add this below the definition because of the self reference..
-_dnsQuestion.transformerValidator = _getYesNoValidator(_dnsQuestion, _orchestrateQuestion, "n");
-
-const _nodePermissionsQuestion: QuestionTree = {
-    name: "enableNodePermissions",
-    prompt: "Do you wish to use file based node level permissions ? [Y/n], Default: [Y]",
-};
-// have to add this below the definition because of the self reference..
-_nodePermissionsQuestion.transformerValidator = _getYesNoValidator(_nodePermissionsQuestion, _dnsQuestion, "y");
-
-const _p2pDiscoveryQuestion: QuestionTree = {
-    name: "enableP2PDiscovery",
-    prompt: "Do you wish to use p2p discovery ? [Y/n], Default: [Y]",
-};
-// have to add this below the definition because of the self reference..
-_p2pDiscoveryQuestion.transformerValidator = _getYesNoValidator(_p2pDiscoveryQuestion, _nodePermissionsQuestion, "y");
-
-const _bootNodeQuestion: QuestionTree = {
-    name: "enableBootNodes",
-    prompt: "Do you wish to use boot nodes ? [Y/n], Default: [Y]",
-};
-// have to add this below the definition because of the self reference..
-_bootNodeQuestion.transformerValidator = _getYesNoValidator(_bootNodeQuestion, _orchestrateQuestion, "y", _p2pDiscoveryQuestion);
-
-const _staticNodeQuestion: QuestionTree = {
-    name: "enableStaticNodes",
-    prompt: "Do you wish to use static nodes ? [Y/n], Default: [n]",
-};
-// have to add this below the definition because of the self reference..
-_staticNodeQuestion.transformerValidator = _getYesNoValidator(_staticNodeQuestion, _bootNodeQuestion, "n", _orchestrateQuestion);
-
 const bannerText = String.raw`
               ___
              / _ \   _   _    ___    _ __   _   _   _ __ ___
@@ -153,7 +118,7 @@ export const rootQuestion: QuestionTree = {
     prompt: `${bannerText}${leadInText}Which Ethereum client would you like to run? Default: [1]`,
     options: [
         // TODO: fix these to the correct names
-        { label: "Hyperledger Besu", value: "besu", nextQuestion: _staticNodeQuestion, default: true },
+        { label: "Hyperledger Besu", value: "besu", nextQuestion: _orchestrateQuestion, default: true },
         { label: "GoQuorum", value: "gquorum", nextQuestion: _orchestrateQuestion }
     ]
 };
@@ -161,7 +126,6 @@ export const rootQuestion: QuestionTree = {
 function _getYesNoValidator(question: QuestionTree, yesQuestion?: QuestionTree, defaultResponse?: "y" | "n", noQuestion?: QuestionTree) {
     return (rawInput: string, answers: AnswerMap) => {
         const normalizedInput = rawInput.toLowerCase();
-
         if (defaultResponse && !normalizedInput) {
             answers[question.name] = defaultResponse === "y";
         } else if (normalizedInput === "y" || normalizedInput === "n") {
