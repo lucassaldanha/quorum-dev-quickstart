@@ -1,67 +1,30 @@
 {%- macro services(nodeConfig) %}
 {% set bootnode = nodeConfig | firstByAttr('boot', true) %}
 {% set memberPort = 20000 %}
-{% for node in nodeConfig %}
-{% if node.type == 'validator' %}
-  {{ node.name}}:
-    << : *besu-bootnode-def
-    volumes:
-      - public-keys:/tmp/
-      - ./config/besu/config.toml:/config/config.toml
-      - ./config/besu/permissions_config.toml:/config/permissions_config.toml
-      - ./config/besu/log-config.xml:/config/log-config.xml
-      - ./logs/besu:/var/log/
-      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
-      - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
-{% if enableStaticNodes %}
-      - ./config/besu/static-nodes.json:/config/static-nodes.json
-{% endif %}
-{% if bootnode and node.name != bootnode.name %}
-    depends_on:
-      - {{ bootnode.name}}
-{% endif %}
-    networks:
-      quorum-dev-quickstart:
-{%- if not enableDNS %}
-        ipv4_address: {{ node.ip}}
-{%- endif %}
-{% elif node.type == 'rpc' %}
-  {{ node.name}}:
-    << : *besu-def
-    volumes:
-      - public-keys:/opt/besu/public-keys/
-      - ./config/besu/config.toml:/config/config.toml
-      - ./config/besu/permissions_config.toml:/config/permissions_config.toml
-      - ./config/besu/log-config.xml:/config/log-config.xml
-      - ./logs/besu:/var/log/
-      - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
-      - ./config/besu/networkFiles/rpcnode/keys:/opt/besu/keys
-{% if enableStaticNodes %}
-      - ./config/besu/static-nodes.json:/config/static-nodes.json
-{% endif %}
-{% if bootnode %}
-    depends_on:
-      - {{ bootnode.name}}
-{% endif %}
-
-    ports:
-      - 8545:8545/tcp
-      - 8546:8546/tcp
-    networks:
-      quorum-dev-quickstart:
-{% if not enableDNS %}
-        ipv4_address: {{ node.ip}}
-{% endif %}
-
-{% elif privacy and node.type == 'member' %}
+{% set rpcPort = 8545 %}
+{% set besuNodes = nodeConfig | byNotAttr('type', 'orion') %}
+{% for node in besuNodes %}
+{% set isValidator = 'validator' == node.roles | firstByValue('validator') %}
+{% set isMember = 'member' == node.roles | firstByValue('member') %}
+{% set isRPC = 'rpc' == node.roles | firstByValue('rpc') %}
 {%- set orionnode = nodeConfig | firstByAttr('name', node.orion) %}
+{% if isValidator or isMember or isRPC %}
+{% if isMember %}
   {{ node.name}}besu:
-    << : *besu-def
+{% else %}
+  {{ node.name}}:
+{% endif %}
+    restart: "on-failure"
+    image: hyperledger/besu:${BESU_VERSION:-latest}
+    environment:
+      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
     entrypoint:
       - /bin/bash
       - -c
       - |
-{% if not enableStaticNodes %}
+{% if node.boot %}
+        /opt/besu/bin/besu public-key export --to=/tmp/bootnode_pubkey;
+{% elif not enableStaticNodes %}
         while [ ! -f "/opt/besu/public-keys/bootnode_pubkey" ]; do sleep 5; done ;
 {% endif %}
         /opt/besu/bin/besu \
@@ -69,41 +32,66 @@
         --p2p-host=$$(hostname -i) \
         --genesis-file=/config/genesis.json \
         --node-private-key-file=/opt/besu/keys/key \
+{% if privacy and isMember %}
         --privacy-enabled \
         --privacy-url=http://{{- node.name}}orion:8888 \
         --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
-        --rpc-http-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} \
-        --rpc-ws-api=EEA,WEB3,ETH,NET,PRIV,PERM,{{- besuConsApi}} ;
+{% endif %}
+        --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
+        --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
     volumes:
+{% if node.boot %}
+      - public-keys:/tmp/
+{% else %}
       - public-keys:/opt/besu/public-keys/
+{% endif %}
       - ./config/besu/config.toml:/config/config.toml
       - ./config/besu/permissions_config.toml:/config/permissions_config.toml
-{% if enableStaticNodes %}
-      - ./config/besu/static-nodes.json:/config/static-nodes.json
-{% endif %}
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/var/log/
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
+{% if privacy and isMember %}
       - ./config/orion/networkFiles/{{- orionnode.name}}/nodeKey.pub:/config/orion/orion.pub
+{% endif %}
+{% if enableStaticNodes %}
+      - ./config/besu/static-nodes.json:/config/static-nodes.json
+{% endif %}
+{% if isMember or (bootnode and node.name != bootnode.name) %}
     depends_on:
+{% if isMember %}
       - {{ node.name}}orion
-{% if bootnode %}
+{% endif %}
+{% if bootnode and node.name != bootnode.name %}
       - {{ bootnode.name}}
 {% endif %}
+{% endif %}
+{% if isRPC or isMember %}
     ports:
+{% if isRPC %}
+      - {{rpcPort}}:8545/tcp
+      - {{rpcPort+1}}:8546/tcp
+{% set rpcPort = rpcPort + 2 %}
+{% endif %}
+{% if isMember %}
       - {{memberPort}}:8545/tcp
       - {{memberPort+1}}:8546/tcp
+{% set memberPort = memberPort + 2 %}
+{% endif %}
+{% endif %}
     networks:
       quorum-dev-quickstart:
-{% if not enableDNS %}
+{%- if not enableDNS %}
         ipv4_address: {{ node.ip}}
-{% endif %}
+{%- endif %}
 
+{% if isMember %}
 {% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
+{% if otherOrions %}
   {{ node.name}}orion:
-    << : *orion-def
+    image: consensys/quorum-orion:${QUORUM_ORION_VERSION:-latest}
+    command: ["/config/orion.conf"]
     environment:
       - ORION_OTHERNODES={% for otherOrion in nodeConfig | byArr(otherOrions, 'orion', 'name') %}http://{{- otherOrion.name}}orion:8080/{{',' if not loop.last}}{% endfor %}
       - ORION_NODEURL=http://{{- node.name}}orion:8080
@@ -119,7 +107,8 @@
 {% if not enableDNS %}
         ipv4_address: {{ orionnode.ip}}
 {% endif %}
-{% set memberPort = memberPort + 2 %}
+{% endif %}
+{% endif %}
 
 {% endif %}
 {% endfor %}

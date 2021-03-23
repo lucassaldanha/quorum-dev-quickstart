@@ -28,6 +28,7 @@ export async function buildNetwork(context: NetworkContext): Promise<void> {
         env.addFilter("getAttr", (arr, key) => arr.map((entry:any) => entry[key]));
         env.addFilter("byNotAttr", (arr, key, val) => arr.filter((entry:any) => entry[key] !== val));
         env.addFilter("firstByAttr", (arr, key, val) => arr.find((entry:any) => entry[key] === val));
+        env.addFilter("firstByValue", (arr, val) => arr.find((entry:any) => entry === val));
         if (context.orchestrate) {
             spinner.text = `Installing Orchestrate quickstart with ` +
                 `${context.clientType === "besu" ? "Besu" : "GoQuorum"} clients to` +
