@@ -41,7 +41,6 @@ if [[ ! -z `docker ps -a | grep quorum-dev-quickstart_pet_shop` ]]; then
   removeDockerImage quorum-dev-quickstart_pet_shop
 fi
 
-  docker image rm quorum-test-network_logstash
 rm_image=${1:-nrmi}
 
 if [ $rm_image == "-rmi" ]; then
