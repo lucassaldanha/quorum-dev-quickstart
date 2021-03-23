@@ -3,7 +3,7 @@ import { readdirSync } from "fs";
 import { QuestionTree, AnswerMap } from "./types";
 import chalk from "chalk";
 
-const _outputDirQuestion: QuestionTree = {
+export const outputDirQuestion: QuestionTree = {
     name: "outputPath",
     prompt: "Where should we create the config files for this network? Please\n" +
  "choose either an empty directory, or a path to a new directory that does\n" +
@@ -24,7 +24,7 @@ const _outputDirQuestion: QuestionTree = {
                     `already contains some files. Please clear the directory before continuing, or choose\n` +
                     `a different one.\n`
                 ));
-                return _outputDirQuestion;
+                return outputDirQuestion;
             }
         } catch (err) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -36,7 +36,7 @@ const _outputDirQuestion: QuestionTree = {
                     `Whoops! There was an error when checking your output directory (${err.code as string}). Please\n` +
                     `choose a different one before proceeding.\n`
                 ));
-                return _outputDirQuestion;
+                return outputDirQuestion;
             }
         }
 
@@ -50,7 +50,7 @@ const _elkQuestion: QuestionTree = {
     prompt: "Do you wish to enable support for logging with ELK (Elasticsearch, Logstash & Kibana)? [y/N]",
 };
 // have to add this below the definition because of the self reference..
-_elkQuestion.transformerValidator = _getYesNoValidator(_elkQuestion, _outputDirQuestion, "n");
+_elkQuestion.transformerValidator = _getYesNoValidator(_elkQuestion, outputDirQuestion, "n");
 
 const _privacyQuestion: QuestionTree = {
     name: "privacy",
@@ -69,11 +69,11 @@ const _orchestrateQuestion: QuestionTree = {
 
         if (!normalizedInput) {
             answers.orchestrate = true;
-            return _outputDirQuestion;
+            return outputDirQuestion;
         } else if (normalizedInput === "y" || normalizedInput === "n") {
             answers.orchestrate = normalizedInput === "y";
             if (answers.orchestrate) {
-                return _outputDirQuestion;
+                return outputDirQuestion;
             } else {
                 return _privacyQuestion;
             }

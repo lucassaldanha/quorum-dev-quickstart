@@ -1,5 +1,5 @@
-# Quorum Dev Quickstart - with more questions!
-This branch has more questions to refine the kind of network that is created. This is primarily geared towards Besu customisations will look at porting the same to GoQuorum later. Look at the [Hyperledger Besu](./files/besu/README.md) readme for the extra questions.
+# Quorum Dev Quickstart - with support for more configurations!
+This branch has support for specifying a config file (example: [default config](./config/default.json)) as an optional argument to refine the kind of network that is created. This is primarily geared towards Besu customisations will look at porting the same to GoQuorum later. Look at the [Hyperledger Besu](./files/besu/README.md) readme for config options.
 
 
 ## Table of Contents
