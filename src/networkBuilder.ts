@@ -23,11 +23,11 @@ export async function buildNetwork(context: NetworkContext): Promise<void> {
 
     try {
         const env = configure(macrosPath);
-        env.addFilter("byAttr", (arr, key, val) => arr.filter((entry:any) => entry[key] == val))
-        env.addFilter("byArr", (arr, filterArr, sKey, dKey) => arr.filter((entry:any) => undefined !== filterArr.find((obj:any) => entry[sKey] === obj[dKey])))
-        env.addFilter("getAttr", (arr, key) => arr.map((entry:any) => entry[key]))
-        env.addFilter("byNotAttr", (arr, key, val) => arr.filter((entry:any) => entry[key] !== val))
-        env.addFilter("firstByAttr", (arr, key, val) => arr.find((entry:any) => entry[key] == val))
+        env.addFilter("byAttr", (arr, key, val) => arr.filter((entry:any) => entry[key] === val));
+        env.addFilter("byArr", (arr, filterArr, sKey, dKey) => arr.filter((entry:any) => undefined !== filterArr.find((obj:any) => entry[sKey] === obj[dKey])));
+        env.addFilter("getAttr", (arr, key) => arr.map((entry:any) => entry[key]));
+        env.addFilter("byNotAttr", (arr, key, val) => arr.filter((entry:any) => entry[key] !== val));
+        env.addFilter("firstByAttr", (arr, key, val) => arr.find((entry:any) => entry[key] === val));
         if (context.orchestrate) {
             spinner.text = `Installing Orchestrate quickstart with ` +
                 `${context.clientType === "besu" ? "Besu" : "GoQuorum"} clients to` +
