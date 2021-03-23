@@ -5,6 +5,7 @@ export const defaultConfig = {
     "elk":false,
     "enableStaticNodes":false,
     "enableBootNodes":true,
+    "enableETHSignerProxy": true,
     "enableP2PDiscovery":true,
     "enableNodePermissions":true,
     "enableDNS":false,

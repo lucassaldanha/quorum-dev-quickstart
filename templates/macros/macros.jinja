@@ -61,7 +61,9 @@ byNotAttr{%- macro services(nodeConfig) %}
       - /bin/bash
       - -c
       - |
+{% if not enableStaticNodes %}
         while [ ! -f "/opt/besu/public-keys/bootnode_pubkey" ]; do sleep 5; done ;
+{% endif %}
         /opt/besu/bin/besu \
         --config-file=/config/config.toml \
         --p2p-host=$$(hostname -i) \

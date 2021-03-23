@@ -32,7 +32,9 @@ x-besu-def:
     - /bin/bash
     - -c
     - |
+{% if not enableStaticNodes %}
       while [ ! -f "/opt/besu/public-keys/bootnode_pubkey" ]; do sleep 5; done ;
+{% endif %}
       /opt/besu/bin/besu \
       --config-file=/config/config.toml \
       --p2p-host=$$(hostname -i) \
@@ -153,6 +155,7 @@ x-ethsignerProxy-def:
 services:
 {{ macros.services(nodeConfig) }}
 
+{% if enableETHSignerProxy %}
   ethsignerProxy:
     << : *ethsignerProxy-def
     volumes:
@@ -168,15 +171,15 @@ services:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.40
 {% endif %}
+{% endif %}
 
-
-
-{% if not orchestrate %}
+{% set anyRPCNode = nodeConfig | firstByAttr('type', 'rpc') %}
+{% if not orchestrate and anyRPCNode %}
   explorer:
     build: block-explorer-light/.
     image: quorum-dev-quickstart/block-explorer-light:develop
     depends_on:
-      - rpcnode
+      - {{ anyRPCNode.name}}
     ports:
       - 25000:80/tcp
     networks:
