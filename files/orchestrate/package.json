@@ -102,6 +102,5 @@
       "tslint",
       "git add"
     ]
-  },
-  "dependencies": {}
+  }
 }
