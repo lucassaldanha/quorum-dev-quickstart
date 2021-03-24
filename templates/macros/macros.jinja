@@ -49,7 +49,7 @@
       - ./config/besu/config.toml:/config/config.toml
       - ./config/besu/permissions_config.toml:/config/permissions_config.toml
       - ./config/besu/log-config.xml:/config/log-config.xml
-      - ./logs/besu:/var/log/
+      - ./logs/besu:/tmp/besu
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
 {% if privacy and isMember %}
@@ -100,7 +100,7 @@
     volumes:
       - ./config/orion/orion.conf:/config/orion.conf
       - ./config/orion/networkFiles/{{- orionnode.name}}:/keys/
-      - ./logs/orion:/var/log/
+      - ./logs/orion:/tmp/orion
       - ./config/orion/log-config.xml:/config/log-config.xml
     networks:
       quorum-dev-quickstart:
