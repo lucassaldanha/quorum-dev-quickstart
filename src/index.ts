@@ -24,11 +24,10 @@ export async function main(): Promise<void> {
         answers = await qr.render(answers);
     } else {
         answers = JSON.parse(readFileSync(process.argv[2], 'utf-8')) as AnswerMap;
-        console.log(answers);
-
         const qr = new QuestionRenderer(outputDirQuestion);
         answers = await qr.render(answers);
     }
+    answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node:any) => entries.concat(node.networks), []))];
     await buildNetwork(answers as NetworkContext);
 
     setTimeout(() => {

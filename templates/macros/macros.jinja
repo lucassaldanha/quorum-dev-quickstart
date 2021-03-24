@@ -81,10 +81,12 @@
 {% endif %}
 {% endif %}
     networks:
-      quorum-dev-quickstart:
+{% for network in node.networks %}
+      {{network}}:
 {%- if not enableDNS %}
         ipv4_address: {{ node.ip}}
 {%- endif %}
+{% endfor %}
 
 {% if isMember %}
 {% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
@@ -103,10 +105,12 @@
       - ./logs/orion:/tmp/orion
       - ./config/orion/log-config.xml:/config/log-config.xml
     networks:
-      quorum-dev-quickstart:
+{% for network in node.networks %}
+      {{network}}:
 {% if not enableDNS %}
         ipv4_address: {{ orionnode.ip}}
 {% endif %}
+{% endfor %}
 {% endif %}
 {% endif %}
 

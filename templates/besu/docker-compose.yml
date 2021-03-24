@@ -122,7 +122,7 @@ services:
     ports:
       - 18545:8545/tcp
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.40
 {% endif %}
@@ -137,7 +137,7 @@ services:
     ports:
       - 25000:80/tcp
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.31
 {% endif %}
@@ -153,7 +153,7 @@ services:
     ports:
       - 9090:9090/tcp
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.32
 {% endif %}
@@ -168,7 +168,7 @@ services:
     ports:
       - 3000:3000/tcp
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.33
 {% endif %}
@@ -179,7 +179,7 @@ services:
   redis:
     << : *redis-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.34
 {% endif %}
@@ -187,7 +187,7 @@ services:
   elasticsearch:
     << : *elasticsearch-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.35
 {% endif %}
@@ -195,7 +195,7 @@ services:
   kibana:
     << : *kibana-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.36
 {% endif %}
@@ -203,7 +203,7 @@ services:
   logstash:
     << : *logstash-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.37
 {% endif %}
@@ -211,7 +211,7 @@ services:
   filebeat:
     << : *filebeat-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.38      
 {% endif %}
@@ -219,7 +219,7 @@ services:
   metricbeat:
     << : *metricbeat-def
     networks:
-      quorum-dev-quickstart:
+      {{defaultNetwork}}:
 {% if not enableDNS %}
         ipv4_address: 172.16.239.39 
 {% endif %}
@@ -237,9 +237,13 @@ volumes:
 
   cakeshop:
 
+{% for network in networks %}
 networks:
-  quorum-dev-quickstart:
+  {{network}}:
     driver: bridge
+{%- if not enableDNS %}
     ipam:
       config:
         - subnet: 172.16.239.0/24
+{% endif %}
+{% endfor %}
