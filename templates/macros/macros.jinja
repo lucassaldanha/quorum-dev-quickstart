@@ -1,8 +1,8 @@
-{%- macro services(nodeConfig) %}
+{%- macro besuNodes(nodeConfig) %}
 {% set bootnode = nodeConfig | firstByAttr('boot', true) %}
 {% set memberPort = 20000 %}
 {% set rpcPort = 8545 %}
-{% set besuNodes = nodeConfig | byNotAttr('type', 'orion') %}
+{% set besuNodes = nodeConfig | byNotAttr('type', 'orion') | byNotAttr('type', 'orion-proxy') | byNotAttr('type', 'firewall') %}
 {% for node in besuNodes %}
 {% set isValidator = 'validator' == node.roles | firstByValue('validator') %}
 {% set isMember = 'member' == node.roles | firstByValue('member') %}
@@ -115,5 +115,72 @@
 {% endif %}
 
 {% endif %}
+{% endfor %}
+{% endmacro %}
+
+{%- macro proxies(nodeConfig) %}
+{% set proxies = nodeConfig | byAttr('type', 'orion-proxy') %}
+{% set statsPort = 13037 %}
+{% for node in proxies %}
+  {{ node.name}}:
+    restart: "on-failure"
+    image: haproxy:${HAPROXY_VERSION:-latest}
+    volumes:
+      - ./config/haproxy/{{node.name}}.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - {{statsPort}}:12037
+{% set statsPort = statsPort + 1 %}
+    networks:
+{% for network in node.networks %}
+      {{network}}:
+{% endfor %}
+{% endfor %}
+{% endmacro %}
+
+{%- macro firewalls(nodeConfig) %}
+{% set firewalls = nodeConfig | byAttr('type', 'firewall') %}
+{% set statsPort = 12037 %}
+{% set firewallPort = 20000 %}
+{% for node in firewalls %}
+  {{ node.name}}:
+    restart: "on-failure"
+    image: haproxy:${HAPROXY_VERSION:-latest}
+    volumes:
+      - ./config/haproxy/{{node.name}}.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - {{statsPort}}:12037
+      - {{firewallPort}}:20000
+{% set statsPort = statsPort + 1 %}
+{% set firewallPort = firewallPort + 1 %}
+    networks:
+{% for network in node.networks %}
+      {{network}}:
+{% endfor %}
+{% endfor %}
+{% endmacro %}
+
+{%- macro haproxyOrion(nodeConfig) %}
+{% set nodes = nodeConfig | byAttr('type', 'orion-proxy') %}
+{% set orionPort = 8081 %}
+{% for node in nodes %}
+{% set nodeName = node.name | replace('firewall', 'orion') %}
+listen {{nodeName}}
+    bind *:{{orionPort}}
+{% set orionPort = orionPort + 1 %}
+    mode http
+    server {{nodeName}} {{node.name}}:8080 verify required check port 8080
+{% endfor %}
+{% endmacro %}
+
+{%- macro haproxyFirewall(nodeConfig, network) %}
+{% set firewalls = nodeConfig | byAttr('type', 'firewall') %}
+{% set orionPort = 8081 %}
+{% for firewall in firewalls %}
+{% set nodeName = firewall.name | replace('firewall', 'orion') %}
+listen {{nodeName}}
+    bind *:{{orionPort}}
+{% set orionPort = orionPort + 1 %}
+    mode http
+    server {{nodeName}} {{firewall.name}}:8080 verify required check port 8080
 {% endfor %}
 {% endmacro %}

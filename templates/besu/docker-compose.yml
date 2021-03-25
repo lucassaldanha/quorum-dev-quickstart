@@ -108,7 +108,11 @@ x-ethsignerProxy-def:
 {% endif %}
 
 services:
-{{ macros.services(nodeConfig) }}
+{{ macros.proxies(nodeConfig) }}
+
+{{ macros.firewalls(nodeConfig) }}
+
+{{ macros.besuNodes(nodeConfig) }}
 
 {% if enableETHSignerProxy and anyRPCNode %}
   ethsignerProxy:
@@ -237,8 +241,8 @@ volumes:
 
   cakeshop:
 
-{% for network in networks %}
 networks:
+{% for network in networks %}
   {{network}}:
     driver: bridge
 {%- if not enableDNS %}
