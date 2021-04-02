@@ -72,12 +72,14 @@
 {% if isRPC %}
       - {{rpcPort}}:8545/tcp
       - {{rpcPort+1}}:8546/tcp
-{% set rpcPort = rpcPort + 2 %}
+      - {{rpcPort+2}}:8547/tcp
+{% set rpcPort = rpcPort + 3 %}
 {% endif %}
 {% if isMember %}
       - {{memberPort}}:8545/tcp
       - {{memberPort+1}}:8546/tcp
-{% set memberPort = memberPort + 2 %}
+      - {{memberPort+2}}:8547/tcp
+{% set memberPort = memberPort + 3 %}
 {% endif %}
 {% endif %}
     networks:
@@ -91,11 +93,14 @@
 {% if isMember %}
 {% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
 {% if otherOrions %}
+{% set otherNodes = nodeConfig | byArr(otherOrions, 'orion', 'name') %}
   {{ node.name}}orion:
     image: consensys/quorum-orion:${QUORUM_ORION_VERSION:-latest}
     command: ["/config/orion.conf"]
     environment:
-      - ORION_OTHERNODES={% for otherOrion in nodeConfig | byArr(otherOrions, 'orion', 'name') %}http://{{- otherOrion.name}}orion:8080/{{',' if not loop.last}}{% endfor %}
+{%- if 0 < otherNodes | length %}    
+      - ORION_OTHERNODES={% for otherOrion in otherNodes %}http://{{- otherOrion.name}}orion:8080/{{',' if not loop.last}}{% endfor %}
+{%- endif %}
       - ORION_NODEURL=http://{{- node.name}}orion:8080
       - ORION_CLIENTURL=http://{{- node.name}}orion:8888
       - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
