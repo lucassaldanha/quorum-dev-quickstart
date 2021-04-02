@@ -7,8 +7,8 @@
   "enableBootNodes": false,
   "enableETHSignerProxy": false,
   "enableP2PDiscovery": false,
-  "enableNodePermissions": true,
-  "enableDNS": false,
+  "enableNodePermissions": false,
+  "enableDNS": true,
   "besuConsAlgo": "miner",
   "besuConsApi": "MINER",
   "enableMiner": true,
@@ -23,7 +23,7 @@
       "ip":"172.16.239.16",
       "type":"member",
       "roles": ["validator", "member", "rpc"],
-      "boot": false,
+      "boot": true,
       "networks": [
         "quorum-dev-quickstart"
       ],
