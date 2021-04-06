@@ -1,6 +1,13 @@
 # Quorum Dev Quickstart - with support for more configurations!
 This branch has support for specifying a config file as an optional argument to refine the kind of network that is created. This is primarily geared towards Besu customisations will look at porting the same to GoQuorum later. Look at the (example: [default.json](./config/default.json)) for config options.
 
+## NOTE ##
+The env file is updated to point to the [p2p-over-ssl branch](https://github.com/perusworld/besu/tree/p2p-over-ssl) docker images.
+
+Make sure to run this on the local besu checkout to use it.
+```bash
+./gradlew clean spotlessApply build -x test -x acceptanceTest distDocker
+```
 
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
