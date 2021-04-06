@@ -2,6 +2,7 @@ export const defaultConfig = {
   "clientType": "besu",
   "orchestrate": false,
   "privacy": true,
+  "p2pSSL": false,
   "elk": false,
   "enableStaticNodes": false,
   "enableBootNodes": true,

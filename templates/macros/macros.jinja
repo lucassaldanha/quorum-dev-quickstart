@@ -38,6 +38,15 @@
         --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
 {%- endif %}
+{%- if p2pSSL %}
+        --p2p-ssl-enabled \
+        --p2p-ssl-keystore-type=JKS \
+        --p2p-ssl-keystore-file=/opt/besu/p2p-ssl/keystore.jks \
+        --p2p-ssl-keystore-password-file=/opt/besu/p2p-ssl/nsspin.txt \
+        --p2p-ssl-truststore-type=JKS \
+        --p2p-ssl-truststore-file=/opt/besu/p2p-ssl/truststore.jks \
+        --p2p-ssl-truststore-password-file=/opt/besu/p2p-ssl/nsspin.txt \
+{%- endif %}
         --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
     volumes:
@@ -54,6 +63,13 @@
       - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
 {% if privacy and isMember %}
       - ./config/orion/networkFiles/{{- orionnode.name}}/nodeKey.pub:/config/orion/orion.pub
+{% endif %}
+{% if p2pSSL %}
+{% if privacy and isMember %}
+      - ./config/besu/p2p-ssl/{{- node.name}}besu:/opt/besu/p2p-ssl
+{% else %}
+      - ./config/besu/p2p-ssl/{{- node.name}}:/opt/besu/p2p-ssl
+{% endif %}
 {% endif %}
 {% if enableStaticNodes %}
       - ./config/besu/static-nodes.json:/config/static-nodes.json
