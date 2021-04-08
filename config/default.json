@@ -18,6 +18,7 @@
   "privacyOnchainGroupsEnabled": false,
   "metrics": true,
   "defaultNetwork": "quorum-dev-quickstart",
+  "besuVersion": "21.1.2",
   "nodeConfig": [
     {
       "name": "validator1",
