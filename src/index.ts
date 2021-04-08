@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
         const qr = new QuestionRenderer(rootQuestion);
         answers = await qr.render(answers);
     } else {
-        answers = JSON.parse(readFileSync(process.argv[2], 'utf-8')) as AnswerMap;
+        answers = {...defaultConfig, ...JSON.parse(readFileSync(process.argv[2], 'utf-8')) as AnswerMap};
         const qr = new QuestionRenderer(outputDirQuestion);
         answers = await qr.render(answers);
     }
