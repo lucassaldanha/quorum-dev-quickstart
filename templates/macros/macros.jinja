@@ -56,7 +56,9 @@
       - public-keys:/opt/besu/public-keys/
 {% endif %}
       - ./config/besu/config.toml:/config/config.toml
+{% if enableNodePermissions %}
       - ./config/besu/permissions_config.toml:/config/permissions_config.toml
+{% endif %}
       - ./config/besu/log-config.xml:/config/log-config.xml
       - ./logs/besu:/tmp/besu
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
