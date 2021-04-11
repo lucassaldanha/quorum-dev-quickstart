@@ -76,9 +76,9 @@
 {% if enableStaticNodes %}
       - ./config/besu/static-nodes.json:/config/static-nodes.json
 {% endif %}
-{% if isMember or (bootnode and node.name != bootnode.name) %}
+{% if (isMember and privacy) or (bootnode and node.name != bootnode.name) %}
     depends_on:
-{% if isMember %}
+{% if isMember and privacy %}
       - {{ node.name}}orion
 {% endif %}
 {% if bootnode and node.name != bootnode.name %}
@@ -108,7 +108,7 @@
 {%- endif %}
 {% endfor %}
 
-{% if isMember %}
+{% if isMember and privacy %}
 {% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
 {% if otherOrions %}
 {% set otherNodes = nodeConfig | byArr(otherOrions, 'orion', 'name') %}
