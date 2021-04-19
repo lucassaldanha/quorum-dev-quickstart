@@ -47,6 +47,16 @@
         --p2p-ssl-truststore-file=/opt/besu/p2p-ssl/truststore.jks \
         --p2p-ssl-truststore-password-file=/opt/besu/p2p-ssl/nsspin.txt \
 {%- endif %}
+{%- if validatorPKI and isValidator%}
+        --pki-enabled=true \
+        --pki-keystore-type=JKS \
+        --pki-keystore-file=/opt/besu/validator-pki/keystore.jks \
+        --pki-keystore-password-file=/opt/besu/validator-pki/nsspin.txt \
+        --pki-keystore-certificate-alias=validator \
+        --pki-truststore-type=JKS \
+        --pki-truststore-file=/opt/besu/validator-pki/truststore.jks \
+        --pki-truststore-password-file=/opt/besu/validator-pki/nsspin.txt \
+{%- endif %}
         --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
     volumes:
@@ -71,6 +81,13 @@
       - ./config/besu/p2p-ssl/{{- node.name}}besu:/opt/besu/p2p-ssl
 {% else %}
       - ./config/besu/p2p-ssl/{{- node.name}}:/opt/besu/p2p-ssl
+{% endif %}
+{% endif %}
+{% if validatorPKI and isValidator %}
+{% if privacy and isMember %}
+      - ./config/besu/validator-pki/{{- node.name}}besu:/opt/besu/validator-pki
+{% else %}
+      - ./config/besu/validator-pki/{{- node.name}}:/opt/besu/validator-pki
 {% endif %}
 {% endif %}
 {% if enableStaticNodes %}
