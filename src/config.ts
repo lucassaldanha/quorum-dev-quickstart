@@ -3,6 +3,7 @@ export const defaultConfig = {
   "orchestrate": false,
   "privacy": true,
   "p2pSSL": false,
+  "validatorPKI": false,
   "elk": false,
   "enableStaticNodes": false,
   "enableBootNodes": true,
