@@ -10,6 +10,7 @@
 {%- set orionnode = nodeConfig | firstByAttr('name', node.orion) %}
 {% if isValidator or isMember or isRPC %}
 {% if isMember %}
+{% set memberNum = node.name | getNum() %}
   {{ node.name}}besu:
 {% else %}
   {{ node.name}}:
@@ -34,9 +35,16 @@
         --node-private-key-file=/opt/besu/keys/key \
 {%- if privacy and isMember %}
         --privacy-enabled \
-        --privacy-url=http://{{- node.name}}orion:8888 \
-        --privacy-public-key-file=/config/orion/orion.pub \
         --privacy-onchain-groups-enabled={{- privacyOnchainGroupsEnabled}} \
+{%- if multiTenant %}
+        --privacy-multi-tenancy-enabled \
+        --rpc-http-authentication-enabled \
+        --rpc-http-authentication-credentials-file=/opt/besu/keys/auth.toml \
+        --privacy-url=http://{{- orionnode.name}}:8888 \
+{%- else %}
+        --privacy-public-key-file=/config/orion/orion.pub \
+        --privacy-url=http://{{- node.name}}orion:8888 \
+{%- endif %}
 {%- endif %}
 {%- if p2pSSL %}
         --p2p-ssl-enabled \
@@ -74,7 +82,7 @@
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
 {% if privacy and isMember %}
-      - ./config/orion/networkFiles/{{- orionnode.name}}/nodeKey.pub:/config/orion/orion.pub
+      - ./config/orion/networkFiles/orion{{- memberNum}}/nodeKey.pub:/config/orion/orion.pub
 {% endif %}
 {% if p2pSSL %}
 {% if privacy and isMember %}
@@ -96,7 +104,11 @@
 {% if (isMember and privacy) or (bootnode and node.name != bootnode.name) %}
     depends_on:
 {% if isMember and privacy %}
+{%- if multiTenant %}
+      - {{ orionnode.name}}
+{%- else %}
       - {{ node.name}}orion
+{% endif %}
 {% endif %}
 {% if bootnode and node.name != bootnode.name %}
       - {{ bootnode.name}}
@@ -126,6 +138,29 @@
 {% endfor %}
 
 {% if isMember and privacy %}
+{%- if multiTenant %}
+{%- if "1" == memberNum %}
+  {{ orionnode.name}}:
+    image: consensys/quorum-orion:${QUORUM_ORION_VERSION:-latest}
+    command: ["/config/orion.conf"]
+    environment:
+      - ORION_NODEURL=http://{{- orionnode.name}}:8080
+      - ORION_CLIENTURL=http://{{- orionnode.name}}:8888
+      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
+    volumes:
+      - ./config/orion/orion.conf:/config/orion.conf
+      - ./config/orion/networkFiles:/keys/
+      - ./logs/orion:/tmp/orion
+      - ./config/orion/log-config.xml:/config/log-config.xml
+    networks:
+{% for network in node.networks %}
+      {{network}}:
+{% if not enableDNS %}
+        ipv4_address: {{ orionnode.ip}}
+{% endif %}
+{% endfor %}
+{%- endif %}
+{%- else %}
 {% set otherOrions = nodeConfig | byAttr('type', 'orion') | byNotAttr('name', orionnode.name) %}
 {% if otherOrions %}
 {% set otherNodes = nodeConfig | byArr(otherOrions, 'orion', 'name') %}
@@ -152,6 +187,7 @@
 {% endif %}
 {% endfor %}
 {% endif %}
+{%- endif %}
 {% endif %}
 
 {% endif %}

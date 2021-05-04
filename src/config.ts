@@ -2,6 +2,7 @@ export const defaultConfig = {
   "clientType": "besu",
   "orchestrate": false,
   "privacy": true,
+  "multiTenant": false,
   "p2pSSL": false,
   "validatorPKI": false,
   "elk": false,

@@ -9,3 +9,4 @@ logs/
 /volumes/
 .DS_Store
 quorum-test-network/*
+quorum-test-network-*/*
