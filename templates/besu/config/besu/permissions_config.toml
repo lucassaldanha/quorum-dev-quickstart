@@ -1,5 +1,5 @@
 nodes-whitelist=[
-{%- for node in nodeConfig | byNotAttr('type', 'orion') -%}
+{%- for node in nodeConfig | byNotAttr('type', 'privacynode') -%}
 {%- if enableDNS -%}
 "enode://{{- node.publicKey}}@{{- node.name}}:30303"{{- "," if not loop.last}}
 {%- else -%}

@@ -81,7 +81,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion1"
+      "privacynode":"orion1"
     },
     {
       "name":"member2",
@@ -92,7 +92,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion1"
+      "privacynode":"orion1"
     },
     {
       "name":"member3",
@@ -103,13 +103,13 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion1"
+      "privacynode":"orion1"
     },
     {
       "name":"orion1",
       "ip":"172.16.239.26",
       "type":"orion",
-      "roles":["orion"],
+      "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]

@@ -79,7 +79,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion1"
+      "privacynode":"orion1"
     },
     {
       "name":"member2",
@@ -90,7 +90,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion2"
+      "privacynode":"orion2"
     },
     {
       "name":"member3",
@@ -101,13 +101,13 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion":"orion3"
+      "privacynode":"orion3"
     },
     {
       "name":"orion1",
       "ip":"172.16.239.26",
       "type":"orion",
-      "roles":["orion"],
+      "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]
@@ -116,7 +116,7 @@
       "name":"orion2",
       "ip":"172.16.239.27",
       "type":"orion",
-      "roles":["orion"],
+      "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]
@@ -125,7 +125,7 @@
       "name":"orion3",
       "ip":"172.16.239.28",
       "type":"orion",
-      "roles":["orion"],
+      "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]

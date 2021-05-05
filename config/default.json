@@ -94,7 +94,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion": "orion1"
+      "privacynode": "orion1"
     },
     {
       "name": "member2",
@@ -107,7 +107,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion": "orion2"
+      "privacynode": "orion2"
     },
     {
       "name": "member3",
@@ -120,7 +120,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "orion": "orion3"
+      "privacynode": "orion3"
     },
     {
       "name": "orion1",

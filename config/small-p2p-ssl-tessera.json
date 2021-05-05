@@ -80,7 +80,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion1"
+      "tessera":"tessera1"
     },
     {
       "name":"member2",
@@ -91,7 +91,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion2"
+      "tessera":"tessera2"
     },
     {
       "name":"member3",
@@ -102,30 +102,30 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion3"
+      "tessera":"tessera3"
     },
     {
-      "name":"orion1",
+      "name":"tessera1",
       "ip":"172.16.239.26",
-      "type":"orion",
+      "type":"tessera",
       "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]
     },
     {
-      "name":"orion2",
+      "name":"tessera2",
       "ip":"172.16.239.27",
-      "type":"orion",
+      "type":"tessera",
       "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
       ]
     },
     {
-      "name":"orion3",
+      "name":"tessera3",
       "ip":"172.16.239.28",
-      "type":"orion",
+      "type":"tessera",
       "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"

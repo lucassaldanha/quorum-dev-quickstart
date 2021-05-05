@@ -236,9 +236,9 @@ volumes:
   prometheus:
   grafana:
   cakeshop:
-  member1tessera:
-  member2tessera:
-  member3tessera:
+{% for node in nodeConfig | byAttr('type', 'tessera') %}
+  member{{loop.index}}tessera:
+{% endfor %}
 
 networks:
 {% for network in networks %}
