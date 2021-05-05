@@ -69,7 +69,6 @@ x-filebeat-def:
     - redis
   volumes:
     - ./logs/besu/:/var/log/besu/
-    - ./logs/orion/:/var/log/orion/    
 
 x-metricbeat-def:
   &metricbeat-def
@@ -234,12 +233,12 @@ services:
 
 volumes:
   public-keys:
-
   prometheus:
-
   grafana:
-
   cakeshop:
+  member1tessera:
+  member2tessera:
+  member3tessera:
 
 networks:
 {% for network in networks %}
