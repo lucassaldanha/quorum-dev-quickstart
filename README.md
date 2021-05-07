@@ -9,6 +9,15 @@ Make sure to run this on the local besu checkout to use it.
 ./gradlew clean spotlessApply build -x test -x acceptanceTest distDocker
 ```
 
+## Example: Nodes with P2P-SSL and Tessera private transaction manager
+```bash
+npm run build && npm start ./config/small-p2p-ssl-tessera.json
+```
+## Example: Nodes with P2P-SSL and Orion private transaction manager
+```bash
+npm run build && npm start ./config/small-p2p-ssl-orion.json
+```
+
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
 2. [Usage](#usage)

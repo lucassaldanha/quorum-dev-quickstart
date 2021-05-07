@@ -16,6 +16,7 @@
   "minerCoinbase":"fe3b557e8fb62b89f4916b721be55ceb828dbd73",
   "minGasPrice":0,
   "privacyOnchainGroupsEnabled":false,
+  "privacyNodePort": 9101,
   "metrics":false,
   "defaultNetwork": "quorum-dev-quickstart",
   "besuVersion": "21.1.6-SNAPSHOT-openjdk-11",
@@ -80,7 +81,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "tessera":"tessera1"
+      "privacynode":"tessera1"
     },
     {
       "name":"member2",
@@ -91,7 +92,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "tessera":"tessera2"
+      "privacynode":"tessera2"
     },
     {
       "name":"member3",
@@ -102,7 +103,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "tessera":"tessera3"
+      "privacynode":"tessera3"
     },
     {
       "name":"tessera1",

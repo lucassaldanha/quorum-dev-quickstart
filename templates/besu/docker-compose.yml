@@ -111,7 +111,7 @@ services:
 
 {{ macros.firewalls(nodeConfig) }}
 
-{{ macros.besuNodes(nodeConfig) }}
+{{ macros.besuNodes(nodeConfig, privacyNodePort) }}
 
 {% if enableETHSignerProxy and anyRPCNode %}
   ethsignerProxy:

@@ -18,6 +18,7 @@ export const defaultConfig = {
   "minerCoinbase": "fe3b557e8fb62b89f4916b721be55ceb828dbd73",
   "minGasPrice": 0,
   "privacyOnchainGroupsEnabled": false,
+  "privacyNodePort": 8080,
   "metrics": true,
   "defaultNetwork": "quorum-dev-quickstart",
   "besuVersion": "21.1.2",
