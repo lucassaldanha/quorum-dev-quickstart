@@ -18,7 +18,7 @@
   "privacyOnchainGroupsEnabled": false,
   "metrics": false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.1.6-SNAPSHOT-openjdk-11",
+  "besuVersion": "21.1.7-SNAPSHOT-openjdk-11",
   "nodeConfig": [
     {
       "name":"member1",
