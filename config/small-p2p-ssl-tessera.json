@@ -6,7 +6,7 @@
   "elk":false,
   "enableStaticNodes":true,
   "enableBootNodes":false,
-  "enableETHSignerProxy": false,
+  "enableETHSignerProxy": true,
   "enableP2PDiscovery":false,
   "enableNodePermissions":false,
   "enableDNS":true,
@@ -19,7 +19,7 @@
   "privacyNodePort": 9101,
   "metrics":false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.1.8-SNAPSHOT-openjdk-11",
+  "besuVersion": "21.7.0-RC1-SNAPSHOT-openjdk-11",
   "nodeConfig":[
     {
       "name":"validator1",
