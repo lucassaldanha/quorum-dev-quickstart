@@ -22,12 +22,12 @@ export async function main(): Promise<void> {
     let answers: AnswerMap = defaultConfig as AnswerMap;
     if (process.argv.slice(2).length > 0) {
         const args = await yargs(process.argv.slice(2)).options({
-            configFile: { type: 'string', default: null, describe: 'Config file to use.' },
-            clientType: { type: 'string', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
+            configFile: { type: 'string', default: null, describe: 'Config file to use, will override the commandline args.' },
+            clientType: { type: 'string', default: 'besu', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
             outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.' },
             elk: { type: 'boolean', default: false, demandOption: false, describe: 'Enable support for logging with ELK.' },
-            privacy: { type: 'boolean', describe: 'Enable support for private transactions' },
-            orchestrate: { type: 'boolean', default: true, describe: 'Try out Codefi Orchestrate?' },
+            privacy: { type: 'boolean', default: true,  describe: 'Enable support for private transactions' },
+            orchestrate: { type: 'boolean', default: false, describe: 'Try out Codefi Orchestrate?' },
         }).argv;
 
         const argAnswers = {
