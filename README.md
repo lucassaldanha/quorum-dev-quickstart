@@ -105,7 +105,7 @@ npx quorum-dev-quickstart -- --clientType besu --outputPath ./ --elk true --priv
 Alternatively, complex configurations can be saved to a config json file and invoked via commandline using the the following command. A few config files are available [here](/config)
 
 ```
-npm run build && npm start -- --configFile=./config/small-p2p-ssl-orion.json
+npm run build && npm start -- --configFile=./config/small-p2p-ssl-tessera.json
 ```
 
 **To start services and the network:**
