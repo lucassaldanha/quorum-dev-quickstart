@@ -1,6 +1,7 @@
 import { rootQuestion, outputDirQuestion } from "./questions";
 import { QuestionRenderer } from "./questionRenderer";
 import { buildNetwork, NetworkContext } from "./networkBuilder";
+import yargs = require('yargs/yargs');
 import chalk from "chalk";
 import { AnswerMap } from "./questions/types";
 import { readFileSync } from "fs";
@@ -18,6 +19,7 @@ export async function main(): Promise<void> {
         process.exit(1);
     }
 
+<<<<<<< HEAD
     let answers : AnswerMap = defaultConfig as AnswerMap;
     if (2 === process.argv.length) {
         const qr = new QuestionRenderer(rootQuestion);
@@ -28,6 +30,32 @@ export async function main(): Promise<void> {
         answers = await qr.render(answers);
     }
     answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node:any) => entries.concat(node.networks), []))];
+=======
+    let answers = {};
+
+    if(process.argv.slice(2).length > 0){
+      const args = await yargs(process.argv.slice(2)).options({
+        clientType: { type: 'string', demandOption: true, choices:['besu','goquorum'], describe: 'Ethereum client to use.' },
+        outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.'},
+        elk: { type: 'boolean', default: false, demandOption: false, describe: 'Enable support for logging with ELK.' },
+        privacy: { type: 'boolean', demandOption: true, describe: 'Enable support for private transactions' },
+        orchestrate: { type: 'boolean', default: true, demandOption: false, describe: 'Try out Codefi Orchestrate?' },
+      }).argv;
+
+      answers = {
+        clientType: args.clientType,
+        outputPath: args.outputPath,
+        elk: args.elk,
+        privacy: args.privacy,
+        orchestrate: args.orchestrate,
+      };
+
+    } else{
+      const qr = new QuestionRenderer(rootQuestion);
+      answers = await qr.render();
+    }
+
+>>>>>>> master
     await buildNetwork(answers as NetworkContext);
 
     setTimeout(() => {
