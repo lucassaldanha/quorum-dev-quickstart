@@ -19,43 +19,40 @@ export async function main(): Promise<void> {
         process.exit(1);
     }
 
-<<<<<<< HEAD
-    let answers : AnswerMap = defaultConfig as AnswerMap;
-    if (2 === process.argv.length) {
-        const qr = new QuestionRenderer(rootQuestion);
-        answers = await qr.render(answers);
-    } else {
-        answers = {...defaultConfig, ...JSON.parse(readFileSync(process.argv[2], 'utf-8')) as AnswerMap};
+    let answers: AnswerMap = defaultConfig as AnswerMap;
+    if (process.argv.slice(2).length > 0) {
+        const args = await yargs(process.argv.slice(2)).options({
+            configFile: { type: 'string', default: null, describe: 'Config file to use.' },
+            clientType: { type: 'string', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
+            outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.' },
+            elk: { type: 'boolean', default: false, demandOption: false, describe: 'Enable support for logging with ELK.' },
+            privacy: { type: 'boolean', describe: 'Enable support for private transactions' },
+            orchestrate: { type: 'boolean', default: true, describe: 'Try out Codefi Orchestrate?' },
+        }).argv;
+
+        const argAnswers = {
+            clientType: args.clientType,
+            outputPath: args.outputPath,
+            elk: args.elk,
+            privacy: args.privacy,
+            orchestrate: args.orchestrate,
+        };
+
+        if (args.configFile) {
+            const configFile: any = args.configFile;
+            answers = { ...defaultConfig, ...JSON.parse(readFileSync(configFile, 'utf-8')) as AnswerMap };
+        } else {
+            answers = { ...defaultConfig, ...argAnswers };
+        }
         const qr = new QuestionRenderer(outputDirQuestion);
         answers = await qr.render(answers);
+
+    } else {
+        const qr = new QuestionRenderer(rootQuestion);
+        answers = await qr.render(answers);
     }
-    answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node:any) => entries.concat(node.networks), []))];
-=======
-    let answers = {};
+    answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node: any) => entries.concat(node.networks), []))];
 
-    if(process.argv.slice(2).length > 0){
-      const args = await yargs(process.argv.slice(2)).options({
-        clientType: { type: 'string', demandOption: true, choices:['besu','goquorum'], describe: 'Ethereum client to use.' },
-        outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.'},
-        elk: { type: 'boolean', default: false, demandOption: false, describe: 'Enable support for logging with ELK.' },
-        privacy: { type: 'boolean', demandOption: true, describe: 'Enable support for private transactions' },
-        orchestrate: { type: 'boolean', default: true, demandOption: false, describe: 'Try out Codefi Orchestrate?' },
-      }).argv;
-
-      answers = {
-        clientType: args.clientType,
-        outputPath: args.outputPath,
-        elk: args.elk,
-        privacy: args.privacy,
-        orchestrate: args.orchestrate,
-      };
-
-    } else{
-      const qr = new QuestionRenderer(rootQuestion);
-      answers = await qr.render();
-    }
-
->>>>>>> master
     await buildNetwork(answers as NetworkContext);
 
     setTimeout(() => {
