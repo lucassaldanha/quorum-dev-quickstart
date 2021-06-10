@@ -99,10 +99,14 @@ $> cd quorum-test-network
 Alternatively, this prompt can be bypassed by running the npx command via terminal such like:
 
 ```
-npx quorum-dev-quickstart -- --clientType besu --outputPath ./ --elk true -privacy true --orchestra true
+npx quorum-dev-quickstart -- --clientType besu --outputPath ./ --elk true --privacy true --orchestrate true
 ```
 
-The arguments ```--privacy``` and ```--clientType``` are required, the others contain defaults if left blank.
+Alternatively, complex configurations can be saved to a config json file and invoked via commandline using the the following command. A few config files are available [here](/config)
+
+```
+npm run build && npm start -- --configFile=./config/small-p2p-ssl-orion.json
+```
 
 **To start services and the network:**
 
