@@ -96,7 +96,7 @@ $> cd quorum-test-network
 ``` 
 
 
-Alternatively, this prompt can be bypassed by running the npx command via terminal such like:
+Alternatively, you can use cli options and skip the prompt above like so:
 
 ```
 npx quorum-dev-quickstart -- --clientType besu --outputPath ./ --elk true --privacy true --orchestrate true
