@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
             configFile: { type: 'string', default: null, describe: 'Config file to use, will override the commandline args.' },
             clientType: { type: 'string', default: 'besu', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
             outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.' },
-            elk: { type: 'boolean', default: false, demandOption: false, describe: 'Enable support for logging with ELK.' },
+            monitoring: { type: 'string', default: 'default', demandOption: false, describe: 'Enable support for monitoring with Splunk or ELK.' },
             privacy: { type: 'boolean', default: true,  describe: 'Enable support for private transactions' },
             orchestrate: { type: 'boolean', default: false, describe: 'Try out Codefi Orchestrate?' },
         }).argv;
@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
         const argAnswers = {
             clientType: args.clientType,
             outputPath: args.outputPath,
-            elk: args.elk,
+            monitoring: args.monitoring,
             privacy: args.privacy,
             orchestrate: args.orchestrate,
         };
