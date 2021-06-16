@@ -2,7 +2,7 @@
   "clientType": "besu",
   "orchestrate": false,
   "privacy": true,
-  "elk": false,
+  "monitoring": "none",
   "enableStaticNodes": true,
   "enableBootNodes": false,
   "enableETHSignerProxy": false,

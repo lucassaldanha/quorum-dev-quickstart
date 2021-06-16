@@ -4,7 +4,7 @@
   "privacy": true,
   "p2pSSL": false,
   "validatorPKI": true,
-  "elk": false,
+  "monitoring": "none",
   "enableStaticNodes": true,
   "enableBootNodes": false,
   "enableETHSignerProxy": false,

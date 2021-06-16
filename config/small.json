@@ -3,7 +3,7 @@
   "orchestrate":false,
   "privacy":true,
   "p2pSSL": false,
-  "elk":false,
+  "monitoring": "none",
   "enableStaticNodes":false,
   "enableBootNodes":true,
   "enableETHSignerProxy": false,

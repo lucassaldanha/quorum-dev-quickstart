@@ -78,6 +78,9 @@
       - ./config/besu/permissions_config.toml:/config/permissions_config.toml
 {% endif %}
       - ./config/besu/log-config.xml:/config/log-config.xml
+{% if "splunk" == monitoring %}
+      - ./config/besu/log-config-splunk.xml:/config/log-config-splunk.xml
+{% endif %}
       - ./logs/besu:/tmp/besu
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
@@ -136,6 +139,10 @@
         ipv4_address: {{ node.ip}}
 {%- endif %}
 {% endfor %}
+{% if monitoring == "splunk" %}
+    env_file:
+      ./config/besu/env-file
+{% endif %}
 
 {% if isMember and privacy %}
 {% call privacyNode(nodeConfig, node, privacynode, multiTenant, memberNum) %}

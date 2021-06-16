@@ -2,12 +2,11 @@
   "clientType":"besu",
   "orchestrate":false,
   "privacy":true,
-  "multiTenant": true,
   "p2pSSL": true,
-  "monitoring": "none",
+  "monitoring": "splunk",
   "enableStaticNodes":true,
   "enableBootNodes":false,
-  "enableETHSignerProxy": false,
+  "enableETHSignerProxy": true,
   "enableP2PDiscovery":false,
   "enableNodePermissions":false,
   "enableDNS":true,
@@ -17,9 +16,11 @@
   "minerCoinbase":"fe3b557e8fb62b89f4916b721be55ceb828dbd73",
   "minGasPrice":0,
   "privacyOnchainGroupsEnabled":false,
+  "privacyNodePort": 9101,
   "metrics":false,
   "defaultNetwork": "quorum-dev-quickstart",
   "besuVersion": "21.7.0-RC1-SNAPSHOT-openjdk-11",
+  "dockerRootDir": "/var/snap/docker/common/var-lib-docker/",
   "nodeConfig":[
     {
       "name":"validator1",
@@ -81,7 +82,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion1"
+      "privacynode":"tessera1"
     },
     {
       "name":"member2",
@@ -92,7 +93,7 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion1"
+      "privacynode":"tessera2"
     },
     {
       "name":"member3",
@@ -103,12 +104,30 @@
       "networks": [
         "quorum-dev-quickstart"
       ],
-      "privacynode":"orion1"
+      "privacynode":"tessera3"
     },
     {
-      "name":"orion1",
+      "name":"tessera1",
       "ip":"172.16.239.26",
-      "type":"orion",
+      "type":"tessera",
+      "roles":["privacynode"],
+      "networks": [
+        "quorum-dev-quickstart"
+      ]
+    },
+    {
+      "name":"tessera2",
+      "ip":"172.16.239.27",
+      "type":"tessera",
+      "roles":["privacynode"],
+      "networks": [
+        "quorum-dev-quickstart"
+      ]
+    },
+    {
+      "name":"tessera3",
+      "ip":"172.16.239.28",
+      "type":"tessera",
       "roles":["privacynode"],
       "networks": [
         "quorum-dev-quickstart"
