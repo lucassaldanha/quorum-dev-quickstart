@@ -19,7 +19,7 @@
   "privacyNodePort": 9101,
   "metrics":false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.7.0-RC1-SNAPSHOT-openjdk-11",
+  "besuVersion": "21.7.0-SNAPSHOT-openjdk-11",
   "nodeConfig":[
     {
       "name":"validator1",
