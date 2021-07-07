@@ -83,8 +83,6 @@ x-metricbeat-def:
   links:
     - redis
 
-x-docker-logging:
-  &docker-logging
 {% endif %}
 
 {% if monitoring == "splunk" %}
