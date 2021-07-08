@@ -106,6 +106,8 @@ Alternatively, complex configurations can be saved to a config json file and inv
 
 ```
 npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
+
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-splunk-snap.json
 ```
 
 **To start services and the network:**

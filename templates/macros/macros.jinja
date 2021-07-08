@@ -17,8 +17,8 @@
 {% endif %}
     restart: "on-failure"
     image: hyperledger/besu:${BESU_VERSION:-latest}
-    environment:
-      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
+    env_file:
+      - ./config/besu/.env    
     entrypoint:
       - /bin/bash
       - -c
@@ -139,10 +139,6 @@
         ipv4_address: {{ node.ip}}
 {%- endif %}
 {% endfor %}
-{% if monitoring == "splunk" %}
-    env_file:
-      ./config/besu/env-file
-{% endif %}
 
 {% if isMember and privacy %}
 {% call privacyNode(nodeConfig, node, privacynode, multiTenant, memberNum) %}
@@ -343,7 +339,8 @@ listen {{nodeName}}
     environment:
       - ORION_NODEURL=http://{{- privacynode.name}}:8080
       - ORION_CLIENTURL=http://{{- privacynode.name}}:{{privacyNodePort}}
-      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
+    env_file:
+      - ./config/besu/.env    
     volumes:
       - ./config/orion/orion.conf:/config/orion.conf
       - ./config/orion/networkFiles:/keys/
@@ -370,7 +367,8 @@ listen {{nodeName}}
 {%- endif %}
       - ORION_NODEURL=http://{{- node.name}}orion:8080
       - ORION_CLIENTURL=http://{{- node.name}}orion:{{privacyNodePort}}
-      - LOG4J_CONFIGURATION_FILE=/config/log-config.xml
+    env_file:
+      - ./config/besu/.env    
     volumes:
       - ./config/orion/orion.conf:/config/orion.conf
       - ./config/orion/networkFiles/{{- privacynode.name}}:/keys/
