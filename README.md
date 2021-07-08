@@ -2,7 +2,7 @@
 This branch has support for specifying a config file as an optional argument to refine the kind of network that is created. This is primarily geared towards Besu customisations will look at porting the same to GoQuorum later. Look at the (example: [default.json](./config/default.json)) for config options.
 
 ## NOTE ##
-Some of the [config json files](./config) that have the suffix **-p2p-ssl.json** require a build of the [p2p-over-ssl branch](https://github.com/perusworld/besu/tree/p2p-over-ssl) docker images.
+Some of the [config json files](./config) that have the suffix **-p2p-tls.json** require a build of the [p2p-over-ssl branch](https://github.com/perusworld/besu/tree/p2p-over-ssl) docker images.
 
 Make sure to run this on the local besu checkout to use it.
 ```bash
@@ -11,11 +11,11 @@ Make sure to run this on the local besu checkout to use it.
 
 ## Example: Nodes with P2P-SSL and Tessera private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-ssl-tessera.json
+npm run build && npm start ./config/small-p2p-tls-tessera.json
 ```
 ## Example: Nodes with P2P-SSL and Orion private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-ssl-orion.json
+npm run build && npm start ./config/small-p2p-tls-orion.json
 ```
 
 ## Table of Contents
@@ -105,7 +105,7 @@ npx quorum-dev-quickstart -- --clientType besu --outputPath ./quorum-test-networ
 Alternatively, complex configurations can be saved to a config json file and invoked via commandline using the the following command. A few config files are available [here](/config)
 
 ```
-npm run build && npm start -- --configFile=./config/small-p2p-ssl-tessera.json
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
 ```
 
 **To start services and the network:**

@@ -47,13 +47,13 @@
 {%- endif %}
 {%- endif %}
 {%- if p2pSSL %}
-        --p2p-ssl-enabled \
-        --p2p-ssl-keystore-type=JKS \
-        --p2p-ssl-keystore-file=/opt/besu/p2p-ssl/keystore.jks \
-        --p2p-ssl-keystore-password-file=/opt/besu/p2p-ssl/nsspin.txt \
-        --p2p-ssl-truststore-type=JKS \
-        --p2p-ssl-truststore-file=/opt/besu/p2p-ssl/truststore.jks \
-        --p2p-ssl-truststore-password-file=/opt/besu/p2p-ssl/nsspin.txt \
+        --p2p-tls-enabled \
+        --p2p-tls-keystore-type=JKS \
+        --p2p-tls-keystore-file=/opt/besu/p2p-tls/keystore.jks \
+        --p2p-tls-keystore-password-file=/opt/besu/p2p-tls/nsspin.txt \
+        --p2p-tls-truststore-type=JKS \
+        --p2p-tls-truststore-file=/opt/besu/p2p-tls/truststore.jks \
+        --p2p-tls-truststore-password-file=/opt/besu/p2p-tls/nsspin.txt \
 {%- endif %}
 {%- if validatorPKI and isValidator%}
         --pki-enabled=true \
@@ -89,9 +89,9 @@
 {% endif %}
 {% if p2pSSL %}
 {% if privacy and isMember %}
-      - ./config/besu/p2p-ssl/{{- node.name}}besu:/opt/besu/p2p-ssl
+      - ./config/besu/p2p-tls/{{- node.name}}besu:/opt/besu/p2p-tls
 {% else %}
-      - ./config/besu/p2p-ssl/{{- node.name}}:/opt/besu/p2p-ssl
+      - ./config/besu/p2p-tls/{{- node.name}}:/opt/besu/p2p-tls
 {% endif %}
 {% endif %}
 {% if validatorPKI and isValidator %}
