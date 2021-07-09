@@ -19,7 +19,7 @@
   "privacyNodePort": 9101,
   "metrics":false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.7.0-SNAPSHOT-openjdk-11",
+  "besuVersion": "21.7.1-SNAPSHOT-openjdk-11",
   "dockerRootDir": "/var/snap/docker/common/var-lib-docker/",
   "nodeConfig":[
     {
