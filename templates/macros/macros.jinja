@@ -83,7 +83,7 @@
 {% endif %}
       - ./logs/besu:/tmp/besu
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
-      - ./config/besu/networkFiles/{{- node.name}}/keys:/opt/besu/keys
+      - ./config/besu/{{- besuNetworkFiles}}/{{- node.name}}/keys:/opt/besu/keys
 {% if privacy and isMember %}
       - ./config/{{privacynode.type}}/networkFiles/{{privacynode.type}}{{- memberNum}}/nodeKey.pub:/config/{{privacynode.type}}/{{privacynode.type}}.pub
 {% endif %}

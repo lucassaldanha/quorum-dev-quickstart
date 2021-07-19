@@ -23,6 +23,7 @@ export const defaultConfig = {
   "defaultNetwork": "quorum-dev-quickstart",
   "besuVersion": "21.1.2",
   "dockerRootDir": "/var/lib/docker/",
+  "besuNetworkFiles": "networkFiles",
   "nodeConfig": [
     {
       "name": "validator1",
