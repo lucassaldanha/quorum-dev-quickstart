@@ -11,11 +11,15 @@ Make sure to run this on the local besu checkout to use it.
 
 ## Example: Nodes with P2P-SSL and Tessera private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-tls-tessera.json
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
 ```
 ## Example: Nodes with P2P-SSL and Orion private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-tls-orion.json
+npm run build && npm start -- --configFile=./config/small-p2p-tls-orion.json
+```
+## Example: Nodes with P2P-SSL and Tessera private transaction manager and using secp256r1 algorithm based node keys
+```bash
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-r1.json
 ```
 
 ## Table of Contents
