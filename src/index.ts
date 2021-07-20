@@ -24,10 +24,10 @@ export async function main(): Promise<void> {
         const args = await yargs(process.argv.slice(2)).options({
             configFile: { type: 'string', default: null, describe: 'Config file to use, will override the commandline args.' },
             clientType: { type: 'string', default: 'besu', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
-            outputPath: { type: 'string', default: './quorum-test-network', describe: 'Location for config files.' },
-            monitoring: { type: 'string', default: 'default', demandOption: false, describe: 'Enable support for monitoring with Splunk or ELK.' },
-            privacy: { type: 'boolean', default: true,  describe: 'Enable support for private transactions' },
-            orchestrate: { type: 'boolean', default: false, describe: 'Try out Codefi Orchestrate?' },
+            outputPath: { type: 'string', demandOption: false, default: './quorum-test-network', describe: 'Location for config files.'},
+            monitoring: { type: 'string', demandOption: false, default: 'none', describe: 'Enable support for monitoring with Splunk or ELK.' },
+            privacy: { type: 'boolean', demandOption: true, default: false, describe: 'Enable support for private transactions' },
+            orchestrate: { type: 'boolean', demandOption: false, default: false, describe: 'Try out Codefi Orchestrate?' },
         }).argv;
 
         const argAnswers = {

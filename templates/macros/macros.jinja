@@ -308,7 +308,7 @@ listen {{nodeName}}
           }
         EOF
           cat /data/tm/tessera-config-09.json
-          java -Xms128M -Xmx128M -jar /tessera/tessera-app.jar -configfile /data/tm/tessera-config-09.json &> /var/log/tessera/tessera-$$HOSTNAME.log | tee -a /var/log/tessera/tessera-$$HOSTNAME.log
+          /tessera/bin/tessera -configfile /data/tm/tessera-config-09.json &> /var/log/tessera/tessera-$$HOSTNAME.log | tee -a /var/log/tessera/tessera-$$HOSTNAME.log
     ports:
       - 908{{memberNum}}:9080
     environment:
