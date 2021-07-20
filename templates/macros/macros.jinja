@@ -47,13 +47,13 @@
 {%- endif %}
 {%- endif %}
 {%- if p2pSSL %}
-        --p2p-tls-enabled \
-        --p2p-tls-keystore-type=JKS \
-        --p2p-tls-keystore-file=/opt/besu/p2p-tls/keystore.jks \
-        --p2p-tls-keystore-password-file=/opt/besu/p2p-tls/nsspin.txt \
-        --p2p-tls-truststore-type=JKS \
-        --p2p-tls-truststore-file=/opt/besu/p2p-tls/truststore.jks \
-        --p2p-tls-truststore-password-file=/opt/besu/p2p-tls/nsspin.txt \
+        --Xp2p-tls-enabled \
+        --Xp2p-tls-keystore-type=JKS \
+        --Xp2p-tls-keystore-file=/opt/besu/p2p-tls/keystore.jks \
+        --Xp2p-tls-keystore-password-file=/opt/besu/p2p-tls/nsspin.txt \
+        --Xp2p-tls-truststore-type=JKS \
+        --Xp2p-tls-truststore-file=/opt/besu/p2p-tls/truststore.jks \
+        --Xp2p-tls-truststore-password-file=/opt/besu/p2p-tls/nsspin.txt \
 {%- endif %}
 {%- if validatorPKI and isValidator%}
         --pki-enabled=true \
