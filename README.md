@@ -114,6 +114,8 @@ Alternatively, complex configurations can be saved to a config json file and inv
 ```
 npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
 
+npm run build && npm start -- --configFile=./config/small-p2p-tls-orion.json
+
 npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-splunk-snap.json
 
 npm run build && npm start -- --configFile=./config/four-r1-tls.json
