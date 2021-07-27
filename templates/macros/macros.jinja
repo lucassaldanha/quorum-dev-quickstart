@@ -11,7 +11,7 @@
 {% if isValidator or isMember or isRPC %}
 {% if isMember %}
 {% set memberNum = node.name | getNum() %}
-  {{ node.name}}besu:
+  {{ node.name}}{{- memberSuffix}}:
 {% else %}
   {{ node.name}}:
 {% endif %}
@@ -85,18 +85,18 @@
       - ./config/besu/{{- besuConsAlgo}}Genesis.json:/config/genesis.json
       - ./config/besu/{{- besuNetworkFiles}}/{{- node.name}}/keys:/opt/besu/keys
 {% if privacy and isMember %}
-      - ./config/{{privacynode.type}}/networkFiles/{{privacynode.type}}{{- memberNum}}/nodeKey.pub:/config/{{privacynode.type}}/{{privacynode.type}}.pub
+      - ./config/{{privacynode.type}}/networkFiles/{{privacynode.name}}/nodeKey.pub:/config/{{privacynode.type}}/{{privacynode.type}}.pub
 {% endif %}
 {% if p2pSSL %}
 {% if privacy and isMember %}
-      - ./config/besu/p2p-tls/{{- node.name}}besu:/opt/besu/p2p-tls
+      - ./config/besu/{{- p2pTLSFiles}}/{{- node.name}}{{- memberSuffix}}:/opt/besu/p2p-tls
 {% else %}
-      - ./config/besu/p2p-tls/{{- node.name}}:/opt/besu/p2p-tls
+      - ./config/besu/{{- p2pTLSFiles}}/{{- node.name}}:/opt/besu/p2p-tls
 {% endif %}
 {% endif %}
 {% if validatorPKI and isValidator %}
 {% if privacy and isMember %}
-      - ./config/besu/validator-pki/{{- node.name}}besu:/opt/besu/validator-pki
+      - ./config/besu/validator-pki/{{- node.name}}{{- memberSuffix}}:/opt/besu/validator-pki
 {% else %}
       - ./config/besu/validator-pki/{{- node.name}}:/opt/besu/validator-pki
 {% endif %}

@@ -24,6 +24,9 @@ export const defaultConfig = {
   "besuVersion": "21.1.2",
   "dockerRootDir": "/var/lib/docker/",
   "besuNetworkFiles": "networkFiles",
+  "p2pTLSFiles": "p2p-tls",
+  "memberSuffix": "besu",
+  "logLevel": "INFO",
   "nodeConfig": [
     {
       "name": "validator1",
