@@ -359,9 +359,14 @@ volumes:
   prometheus:
   grafana:
   cakeshop:
-{% for node in nodeConfig | byAttr('type', 'tessera') %}
-  member{{loop.index}}tessera:
+{%- if privacy %}
+{% for node in nodeConfig | byAttr('type', 'member') %}
+{%- set privacynode = nodeConfig | firstByAttr('name', node.privacynode) %}
+{%- if "tessera" == privacynode.type %}
+  {{node.name}}tessera:
+{%- endif %}
 {% endfor %}
+{%- endif %}
   splunk:
   ethlogger:
 
