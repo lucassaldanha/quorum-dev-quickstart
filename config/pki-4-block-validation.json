@@ -19,7 +19,7 @@
   "privacyOnchainGroupsEnabled": false,
   "metrics": false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.1.4-SNAPSHOT-openjdk-latest",
+  "besuVersion": "21.7.3-SNAPSHOT",
   "nodeConfig": [
     {
       "name": "validator1",
