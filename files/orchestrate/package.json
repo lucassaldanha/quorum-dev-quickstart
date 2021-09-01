@@ -1,9 +1,9 @@
 {
   "name": "codefi-orchestrate-quick-start",
-  "version": "3.0.0",
+  "version": "3.1.2",
   "description": "Codefi Orchestrate Quick start",
   "config": {
-    "services": "tx-sender tx-listener api",
+    "services": "key-manager tx-sender tx-listener api",
     "deps": "vault-init vault vault-agent postgres-api zookeeper kafka"
   },
   "scripts": {
@@ -16,7 +16,7 @@
     "generate-account": "dotenv ts-node src/generate-account",
     "get-accounts": "dotenv ts-node src/get-accounts",
     "register-chain": "dotenv ts-node src/register-chain",
-    "get-latest-block": "dotenv -- cross-var curl -X POST -H 'Authorization: Bearer %AUTH_TOKEN%' --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBlockByNumber\",\"params\":[\"latest\", false],\"id\":1}' %API_HOST%/proxy/chains/%CHAIN_UUID%",
+    "get-latest-block": "dotenv -- cross-var curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer %AUTH_TOKEN%' --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBlockByNumber\",\"params\":[\"latest\", false],\"id\":1}' %API_HOST%/proxy/chains/%CHAIN_UUID%",
     "create-faucet": "dotenv ts-node src/create-faucet",
     "register-contract": "dotenv ts-node src/register-contract",
     "get-catalog": "dotenv ts-node src/get-catalog",
@@ -38,7 +38,7 @@
     "down-orchestrate": "docker-compose down --volumes --timeout 0",
     "down-deps": "docker-compose -f scripts/deps/docker-compose.yml down --volumes --timeout 0",
     "down-network": "./network.sh down",
-    "up": "npm run up-deps && npm run up-network && sleep 5 && npm run up-orchestrate",
+    "up": "npm run up-deps && npm run up-network && npm run up-orchestrate",
     "down": "npm run down-orchestrate ; npm run down-deps; npm run down-network",
     "start": "npm run up",
     "stop": "npm run down",
@@ -77,7 +77,7 @@
     "ethers": "~5.0.15",
     "husky": "~4.2.5",
     "lint-staged": "~10.2.2",
-    "pegasys-orchestrate": "^4.0.0",
+    "pegasys-orchestrate": "^4.1.0",
     "prettier": "~2.0.5",
     "rimraf": "~3.0.2",
     "truffle": "~5.1.47",

@@ -2,7 +2,7 @@
 This branch has support for specifying a config file as an optional argument to refine the kind of network that is created. This is primarily geared towards Besu customisations will look at porting the same to GoQuorum later. Look at the (example: [default.json](./config/default.json)) for config options.
 
 ## NOTE ##
-Some of the [config json files](./config) that have the suffix **-p2p-ssl.json** require a build of the [p2p-over-ssl branch](https://github.com/perusworld/besu/tree/p2p-over-ssl) docker images.
+Some of the [config json files](./config) that have the suffix **-p2p-tls.json** require a build of the [p2p-tls-cli-at-fn branch](https://github.com/perusworld/besu/tree/p2p-tls-cli-at-fn) docker images.
 
 Make sure to run this on the local besu checkout to use it.
 ```bash
@@ -11,11 +11,20 @@ Make sure to run this on the local besu checkout to use it.
 
 ## Example: Nodes with P2P-SSL and Tessera private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-ssl-tessera.json
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
 ```
 ## Example: Nodes with P2P-SSL and Orion private transaction manager
 ```bash
-npm run build && npm start ./config/small-p2p-ssl-orion.json
+npm run build && npm start -- --configFile=./config/small-p2p-tls-orion.json
+```
+## Example: Nodes with P2P-SSL and Tessera private transaction manager and using secp256r1 algorithm based node keys
+```bash
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-r1.json
+```
+
+## Example: Nodes with PKI-based Block Creation
+```bash
+npm run build && npm start -- --configFile=./config/pki-4-block-validation.json
 ```
 
 ## Table of Contents
@@ -81,7 +90,10 @@ Which Ethereum client would you like to run? Default: [1]
   ...
   Do you wish to enable support for private transactions? [Y/n]
   ...
-  Do you wish to enable support for logging with ELK (Elasticsearch, Logstash & Kibana)? [y/N
+  Do you wish to enable support for logging with Splunk or ELK (Elasticsearch, Logstash & Kibana)? Default: [1]
+	1. None
+	2. Splunk
+	3. ELK
 ...
 Where should we create the config files for this network? Please
 choose either an empty directory, or a path to a new directory that does
@@ -95,9 +107,32 @@ default artifact files are stored at `./quorum-test-network`, change directory t
 $> cd quorum-test-network
 ``` 
 
+
+Alternatively, you can use cli options and skip the prompt above like so:
+
+```
+npx quorum-dev-quickstart --clientType besu --outputPath ./quorum-test-network --monitoring default --privacy true --orchestrate false
+```
+
+Alternatively, complex configurations can be saved to a config json file and invoked via commandline using the the following command. A few config files are available [here](/config)
+
+```
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera.json
+
+npm run build && npm start -- --configFile=./config/small-p2p-tls-orion.json
+
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-splunk-snap.json
+
+npm run build && npm start -- --configFile=./config/four-r1-tls.json
+
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-r1.json
+
+npm run build && npm start -- --configFile=./config/small-p2p-tls-tessera-r1-t.json
+```
+
 **To start services and the network:**
 
 Follow the README.md file of select artifact:
 1. [Hyperledger Besu](./files/besu/README.md)
-2. [GoQuorum](./files/gquorum/README.md)
+2. [GoQuorum](./files/goquorum/README.md)
 3. [Codefi Orchestrate](./files/orchestrate/README.md)

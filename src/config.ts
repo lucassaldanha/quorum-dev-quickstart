@@ -5,7 +5,7 @@ export const defaultConfig = {
   "multiTenant": false,
   "p2pSSL": false,
   "validatorPKI": false,
-  "elk": false,
+  "monitoring": "none",
   "enableStaticNodes": false,
   "enableBootNodes": true,
   "enableETHSignerProxy": true,
@@ -22,6 +22,11 @@ export const defaultConfig = {
   "metrics": true,
   "defaultNetwork": "quorum-dev-quickstart",
   "besuVersion": "21.1.2",
+  "dockerRootDir": "/var/lib/docker/",
+  "besuNetworkFiles": "networkFiles",
+  "p2pTLSFiles": "p2p-tls",
+  "memberSuffix": "besu",
+  "logLevel": "INFO",
   "nodeConfig": [
     {
       "name": "validator1",

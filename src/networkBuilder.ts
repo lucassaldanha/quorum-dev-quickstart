@@ -6,10 +6,10 @@ import path from "path";
 import {Spinner} from "./spinner";
 
 export interface NetworkContext {
-    clientType: "gquorum" | "besu";
+    clientType: "goquorum" | "besu";
     nodeCount: number;
     privacy: boolean;
-    elk: boolean;
+    monitoring: "splunk" | "elk" | "none";
     outputPath: string;
     orchestrate: boolean;
 }
@@ -52,7 +52,7 @@ export async function buildNetwork(context: NetworkContext): Promise<void> {
             orchestrateOutputPath = context.outputPath;
             context.outputPath += "/network";
             context.privacy = true;
-            context.elk = false;
+            context.monitoring = "none";
             context.nodeCount = 3;
         }
 

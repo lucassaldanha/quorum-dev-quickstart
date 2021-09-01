@@ -4,7 +4,7 @@
   "privacy": true,
   "p2pSSL": false,
   "validatorPKI": true,
-  "elk": false,
+  "monitoring": "none",
   "enableStaticNodes": true,
   "enableBootNodes": false,
   "enableETHSignerProxy": false,
@@ -19,7 +19,7 @@
   "privacyOnchainGroupsEnabled": false,
   "metrics": false,
   "defaultNetwork": "quorum-dev-quickstart",
-  "besuVersion": "21.7.3-SNAPSHOT",
+  "besuVersion": "21.1.4-SNAPSHOT-openjdk-latest",
   "nodeConfig": [
     {
       "name": "validator1",

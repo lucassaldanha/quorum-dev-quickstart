@@ -1,6 +1,7 @@
 import { rootQuestion, outputDirQuestion } from "./questions";
 import { QuestionRenderer } from "./questionRenderer";
 import { buildNetwork, NetworkContext } from "./networkBuilder";
+import yargs = require('yargs/yargs');
 import chalk from "chalk";
 import { AnswerMap } from "./questions/types";
 import { readFileSync } from "fs";
@@ -18,16 +19,40 @@ export async function main(): Promise<void> {
         process.exit(1);
     }
 
-    let answers : AnswerMap = defaultConfig as AnswerMap;
-    if (2 === process.argv.length) {
-        const qr = new QuestionRenderer(rootQuestion);
-        answers = await qr.render(answers);
-    } else {
-        answers = {...defaultConfig, ...JSON.parse(readFileSync(process.argv[2], 'utf-8')) as AnswerMap};
+    let answers: AnswerMap = defaultConfig as AnswerMap;
+    if (process.argv.slice(2).length > 0) {
+        const args = await yargs(process.argv.slice(2)).options({
+            configFile: { type: 'string', default: null, describe: 'Config file to use, will override the commandline args.' },
+            clientType: { type: 'string', default: 'besu', choices: ['besu', 'goquorum'], describe: 'Ethereum client to use.' },
+            outputPath: { type: 'string', demandOption: false, default: './quorum-test-network', describe: 'Location for config files.'},
+            monitoring: { type: 'string', demandOption: false, default: 'none', describe: 'Enable support for monitoring with Splunk or ELK.' },
+            privacy: { type: 'boolean', demandOption: true, default: false, describe: 'Enable support for private transactions' },
+            orchestrate: { type: 'boolean', demandOption: false, default: false, describe: 'Try out Codefi Orchestrate?' },
+        }).argv;
+
+        const argAnswers = {
+            clientType: args.clientType,
+            outputPath: args.outputPath,
+            monitoring: args.monitoring,
+            privacy: args.privacy,
+            orchestrate: args.orchestrate,
+        };
+
+        if (args.configFile) {
+            const configFile: any = args.configFile;
+            answers = { ...defaultConfig, ...JSON.parse(readFileSync(configFile, 'utf-8')) as AnswerMap };
+        } else {
+            answers = { ...defaultConfig, ...argAnswers };
+        }
         const qr = new QuestionRenderer(outputDirQuestion);
         answers = await qr.render(answers);
+
+    } else {
+        const qr = new QuestionRenderer(rootQuestion);
+        answers = await qr.render(answers);
     }
-    answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node:any) => entries.concat(node.networks), []))];
+    answers.networks = [... new Set(answers.nodeConfig.reduce((entries: any[], node: any) => entries.concat(node.networks), []))];
+
     await buildNetwork(answers as NetworkContext);
 
     setTimeout(() => {

@@ -5,7 +5,7 @@
   "multiTenant": false,
   "p2pSSL": false,
   "validatorPKI": false,
-  "elk": false,
+  "monitoring": "none",
   "enableStaticNodes": false,
   "enableBootNodes": true,
   "enableETHSignerProxy": true,

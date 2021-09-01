@@ -32,7 +32,7 @@ x-default-variables: &default-variables
 
 x-container-common: &container-common
   restart: ${CONTAINER_RESTART-on-failure}
-  image: orchestrate:v21.1.4
+  image: orchestrate:v21.1.6
   networks:
     - orchestrate
     - quickstart
@@ -92,10 +92,14 @@ services:
     environment:
       <<: *default-variables
       <<: *key-manager-common
-    command: key-manager run
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      /bin/sh /wait_for_token.sh
+      /go/bin/main key-manager run
     volumes:
       - vault-token:/vault/token
-      - ./build/bin/orchestrate:/bin/main
+      - ./scripts/deps/hashicorp/wait_for_token.sh:/wait_for_token.sh
 
   tx-sender:
     <<: *container-common
@@ -104,8 +108,6 @@ services:
     environment:
       <<: *default-variables
       SECRET_STORE: ${SECRET_STORE-hashicorp}
-    volumes:
-      - ./build/bin/orchestrate:/bin/main
     depends_on:
       - api
     command: tx-sender run
