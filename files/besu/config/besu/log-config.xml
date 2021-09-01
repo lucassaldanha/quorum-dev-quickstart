@@ -18,10 +18,6 @@
   </Appenders>
 
   <Loggers>
-    <!-- QBFT -->
-    <Logger name="org.hyperledger.besu.consensus.qbft" level="TRACE"/>
-    <Logger name="org.hyperledger.besu.pki" level="TRACE"/>
-
     <Root level="${sys:root.log.level}">
       <AppenderRef ref="RollingFile" />
       <AppenderRef ref="Console" />

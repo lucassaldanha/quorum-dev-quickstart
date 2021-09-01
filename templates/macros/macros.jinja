@@ -58,13 +58,13 @@
 {%- if validatorPKI and isValidator%}
         --Xpki-block-creation-enabled=true \
         --Xpki-block-creation-keystore-type=PKCS12 \
-        --Xpki-block-creation-keystore-file=/opt/besu/validator-pki/new/keystore \
-        --Xpki-block-creation-keystore-password-file=/opt/besu/validator-pki/new/keystorepwd.txt \
+        --Xpki-block-creation-keystore-file=/opt/besu/validator-pki/keystore \
+        --Xpki-block-creation-keystore-password-file=/opt/besu/validator-pki/keystorepwd.txt \
         --Xpki-block-creation-keystore-certificate-alias=validator \
         --Xpki-block-creation-truststore-type=PKCS12 \
-        --Xpki-block-creation-truststore-file=/opt/besu/validator-pki/new/truststore \
-        --Xpki-block-creation-truststore-password-file=/opt/besu/validator-pki/new/keystorepwd.txt \
-        --Xpki-block-creation-crl-file=/opt/besu/validator-pki/new/validator.crl \
+        --Xpki-block-creation-truststore-file=/opt/besu/validator-pki/truststore \
+        --Xpki-block-creation-truststore-password-file=/opt/besu/validator-pki/keystorepwd.txt \
+        --Xpki-block-creation-crl-file=/opt/besu/validator-pki/validator.crl \
 {%- endif %}
         --rpc-http-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} \
         --rpc-ws-api=EEA,WEB3,ETH,NET,{% if privacy %}PRIV,{% endif %}PERM,{{- besuConsApi}} ;
